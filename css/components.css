@@ -419,3 +419,20 @@ dialog.sheet::backdrop { background: rgb(40 16 6 / .5); backdrop-filter: blur(2p
 .boot-error { display: grid; gap: 14px; justify-items: start; padding: 40px 0; }
 .boot-error h1 { font-size: 24px; }
 .boot-error pre { margin: 0; padding: 12px 14px; border-radius: var(--radius-sm); background: var(--surface-2); overflow-x: auto; max-width: 100%; }
+
+/* ---------- Tap-to-speak (js/ui/voice.js) ---------- */
+.tap-speak [lang|="zh"]:not([data-no-speak]) { cursor: pointer; }
+@media (hover: hover) {
+  .tap-speak [lang|="zh"]:not([data-no-speak]):hover {
+    text-decoration: underline dotted;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+    text-decoration-color: var(--gold);
+  }
+}
+.is-speaking {
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--gold) 35%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--gold) 35%, transparent);
+  transition: background-color .15s ease;
+}

@@ -71,7 +71,7 @@ function layerToggles() {
     h('button', { type: 'button', class: 'toggle', 'data-setting': 'showEnglish', 'aria-pressed': 'true' }, 'EN'),
     h('button', {
       type: 'button', class: 'toggle', 'data-setting': 'script', 'data-value': 'traditional', 'data-off': 'simplified',
-      'aria-pressed': 'false', title: 'Traditional characters', lang: 'zh-Hant',
+      'aria-pressed': 'false', title: 'Traditional characters', lang: 'zh-Hant', 'data-no-speak': '',
     }, '繁'));
 }
 
