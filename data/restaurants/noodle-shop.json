@@ -1,0 +1,392 @@
+{
+  "$schema": "../../schemas/restaurant.schema.json",
+  "schemaVersion": 1,
+  "id": "noodle-shop",
+  "name": { "zh": "兰州拉面馆", "zht": "蘭州拉麵館", "py": "Lánzhōu Lāmiàn Guǎn", "en": "Lanzhou Hand-Pulled Noodle House" },
+  "scene": { "emoji": "🍜", "props": ["🏮", "🥢", "🍜", "🏮"], "colors": ["#ffd27a", "#ef6b3a"] },
+  "startNode": "greet",
+  "rewards": { "exp": 60, "cny": 40 },
+
+  "npcs": {
+    "host":    { "avatar": "👩", "name": { "zh": "老板娘", "zht": "老闆娘", "py": "lǎobǎnniáng", "en": "Owner (Host)" } },
+    "server":  { "avatar": "🧑‍🍳", "name": { "zh": "服务员", "zht": "服務員", "py": "fúwùyuán", "en": "Server" } },
+    "cashier": { "avatar": "🧑‍💼", "name": { "zh": "收银员", "zht": "收銀員", "py": "shōuyínyuán", "en": "Cashier" } }
+  },
+
+  "dialogue": {
+    "greet": {
+      "speaker": "host",
+      "line": { "zh": "欢迎光临！几位？", "zht": "歡迎光臨！幾位？", "py": "Huānyíng guānglín! Jǐ wèi?", "en": "Welcome! How many in your party?" },
+      "choices": [
+        {
+          "id": "one-wei",
+          "text": { "zh": "一位。", "zht": "一位。", "py": "Yí wèi.", "en": "Just one." },
+          "grade": "best",
+          "feedback": "位 (wèi) is the polite measure word for people — mirroring her 几位 is exactly right.",
+          "note": "Tone tip: 一 (yī) changes to yí before a 4th-tone syllable like 位 (wèi).",
+          "next": "seat"
+        },
+        {
+          "id": "one-person",
+          "text": { "zh": "一个人。", "zht": "一個人。", "py": "Yí ge rén.", "en": "One person." },
+          "grade": "ok",
+          "feedback": "She'll understand, but staff use the polite measure word 位 (wèi) for guests. Answering 一位 mirrors her question.",
+          "next": "seat"
+        },
+        {
+          "id": "want-noodles",
+          "text": { "zh": "我要面条。", "zht": "我要麵條。", "py": "Wǒ yào miàntiáo.", "en": "I want noodles." },
+          "grade": "wrong",
+          "feedback": "Getting ahead of yourself! 几位 (jǐ wèi) means \"how many people?\" — answer with a number + 位."
+        }
+      ]
+    },
+
+    "seat": {
+      "speaker": "host",
+      "line": { "zh": "这边请，随便坐。", "zht": "這邊請，隨便坐。", "py": "Zhè biān qǐng, suíbiàn zuò.", "en": "This way, please — sit anywhere you like." },
+      "note": "In casual noodle shops you usually pick your own seat. 随便 (suíbiàn) means \"as you please\".",
+      "next": "server-greet"
+    },
+
+    "server-greet": {
+      "speaker": "server",
+      "line": { "zh": "您好！想吃点什么？", "zht": "您好！想吃點什麼？", "py": "Nín hǎo! Xiǎng chī diǎn shénme?", "en": "Hello! What would you like to eat?" },
+      "choices": [
+        {
+          "id": "look-menu",
+          "text": { "zh": "我先看一下菜单。", "zht": "我先看一下菜單。", "py": "Wǒ xiān kàn yíxià càidān.", "en": "Let me look at the menu first." },
+          "grade": "best",
+          "feedback": "一下 (yíxià) after a verb softens it: \"take a quick look\".",
+          "next": "menu"
+        },
+        {
+          "id": "ask-recommend",
+          "text": { "zh": "你们有什么推荐的？", "zht": "你們有什麼推薦的？", "py": "Nǐmen yǒu shénme tuījiàn de?", "en": "What do you recommend?" },
+          "grade": "best",
+          "feedback": "Asking for a recommendation is a great way to find the house specialty.",
+          "effects": [{ "type": "setFlag", "flag": "askedRecommendation" }],
+          "next": "recommend"
+        },
+        {
+          "id": "check-too-early",
+          "text": { "zh": "买单！", "zht": "買單！", "py": "Mǎidān!", "en": "Check, please!" },
+          "grade": "wrong",
+          "feedback": "买单 (mǎidān) asks for the bill — save it for the end of the meal!"
+        }
+      ]
+    },
+
+    "recommend": {
+      "speaker": "server",
+      "line": { "zh": "我们的招牌是牛肉拉面，很地道！", "zht": "我們的招牌是牛肉拉麵，很地道！", "py": "Wǒmen de zhāopái shì niúròu lāmiàn, hěn dìdao!", "en": "Our specialty is beef hand-pulled noodles — very authentic!" },
+      "note": "招牌 (zhāopái) literally means \"signboard\": the dish a shop is famous for. 地道 (dìdao) means \"authentic\".",
+      "next": "menu"
+    },
+
+    "menu": {
+      "speaker": "server",
+      "line": { "zh": "这是菜单，您慢慢看。", "zht": "這是菜單，您慢慢看。", "py": "Zhè shì càidān, nín mànmàn kàn.", "en": "Here's the menu — take your time." },
+      "action": "openMenu",
+      "next": "confirm"
+    },
+
+    "confirm": {
+      "speaker": "server",
+      "line": { "zh": "好的，您点的是{order}。对吗？", "zht": "好的，您點的是{order}。對嗎？", "py": "Hǎo de, nín diǎn de shì {order}. Duì ma?", "en": "Okay, you ordered: {order}. Is that right?" },
+      "choices": [
+        {
+          "id": "confirm-yes",
+          "text": { "zh": "对，谢谢。", "zht": "對，謝謝。", "py": "Duì, xièxie.", "en": "Yes, thank you." },
+          "grade": "best",
+          "feedback": "Nice. The second 谢 in 谢谢 is a light, neutral tone: xiè-xie.",
+          "next": "wait"
+        },
+        {
+          "id": "confirm-change",
+          "text": { "zh": "不对，我想改一下。", "zht": "不對，我想改一下。", "py": "Bú duì, wǒ xiǎng gǎi yíxià.", "en": "No — I'd like to change it." },
+          "grade": "neutral",
+          "feedback": "No problem — the menu is coming back.",
+          "next": "menu"
+        }
+      ]
+    },
+
+    "wait": {
+      "speaker": "server",
+      "line": { "zh": "请稍等，马上就好。", "zht": "請稍等，馬上就好。", "py": "Qǐng shāo děng, mǎshàng jiù hǎo.", "en": "One moment, please — it'll be right out." },
+      "note": "马上 (mǎshàng) is literally \"on horseback\", but it means \"right away\".",
+      "next": "food"
+    },
+
+    "food": {
+      "speaker": "server",
+      "line": { "zh": "您的菜来了，请慢用！", "zht": "您的菜來了，請慢用！", "py": "Nín de cài lái le, qǐng màn yòng!", "en": "Here's your food — enjoy!" },
+      "note": "请慢用 (qǐng màn yòng), literally \"please eat slowly\", is a polite way to say \"enjoy your meal\".",
+      "choices": [
+        {
+          "id": "ask-chopsticks",
+          "text": { "zh": "谢谢！能给我一双筷子吗？", "zht": "謝謝！能給我一雙筷子嗎？", "py": "Xièxie! Néng gěi wǒ yì shuāng kuàizi ma?", "en": "Thanks! Could I have a pair of chopsticks?" },
+          "grade": "best",
+          "feedback": "Polite and practical! 双 (shuāng) is the measure word for pairs — and 一 becomes yì before a 1st tone.",
+          "effects": [{ "type": "setFlag", "flag": "askedChopsticks" }],
+          "next": "chopsticks"
+        },
+        {
+          "id": "thanks",
+          "text": { "zh": "谢谢！", "zht": "謝謝！", "py": "Xièxie!", "en": "Thanks!" },
+          "grade": "best",
+          "feedback": "Short, sweet, and polite.",
+          "next": "eat"
+        },
+        {
+          "id": "didnt-order",
+          "text": { "zh": "我没点这个。", "zht": "我沒點這個。", "py": "Wǒ méi diǎn zhège.", "en": "I didn't order this." },
+          "grade": "wrong",
+          "feedback": "Careful — this is exactly what you ordered! 没点 (méi diǎn) means \"didn't order\"."
+        }
+      ]
+    },
+
+    "chopsticks": {
+      "speaker": "server",
+      "line": { "zh": "好的，给您。", "zht": "好的，給您。", "py": "Hǎo de, gěi nín.", "en": "Sure, here you go." },
+      "note": "Servers use the respectful 您 (nín) instead of 你 (nǐ) with customers.",
+      "next": "eat"
+    },
+
+    "eat": {
+      "speaker": "narrator",
+      "line": { "zh": "你大口吃起来。真好吃！", "zht": "你大口吃起來。真好吃！", "py": "Nǐ dà kǒu chī qǐlái. Zhēn hǎochī!", "en": "You dig in. Delicious!" },
+      "note": "Slurping noodles is completely normal here — it even shows you're enjoying them.",
+      "next": "bill"
+    },
+
+    "bill": {
+      "speaker": "narrator",
+      "line": { "zh": "你吃饱了。怎么叫服务员结账？", "zht": "你吃飽了。怎麼叫服務員結賬？", "py": "Nǐ chī bǎo le. Zěnme jiào fúwùyuán jiézhàng?", "en": "You're full. How do you ask the server for the bill?" },
+      "choices": [
+        {
+          "id": "call-maidan",
+          "text": { "zh": "服务员，买单！", "zht": "服務員，買單！", "py": "Fúwùyuán, mǎidān!", "en": "Excuse me — the check, please!" },
+          "grade": "best",
+          "feedback": "Exactly. Calling out 服务员 (fúwùyuán) to get attention is normal, not rude.",
+          "next": "pay"
+        },
+        {
+          "id": "how-much",
+          "text": { "zh": "我吃完了，多少钱？", "zht": "我吃完了，多少錢？", "py": "Wǒ chī wán le, duōshao qián?", "en": "I'm done — how much is it?" },
+          "grade": "ok",
+          "feedback": "That works! But 买单 (mǎidān) or 结账 (jiézhàng) is the standard way to ask for the bill.",
+          "next": "pay"
+        },
+        {
+          "id": "just-leave",
+          "text": { "zh": "再见！", "zht": "再見！", "py": "Zàijiàn!", "en": "Bye!" },
+          "grade": "wrong",
+          "feedback": "Leaving without paying? Ask for the bill first!"
+        }
+      ]
+    },
+
+    "pay": {
+      "speaker": "cashier",
+      "line": { "zh": "一共{total}块。扫码还是现金？", "zht": "一共{total}塊。掃碼還是現金？", "py": "Yígòng {total} kuài. Sǎo mǎ háishi xiànjīn?", "en": "That's ¥{total} in total. QR code or cash?" },
+      "note": "块 (kuài) is the everyday word for 元 (yuán). Scanning a QR code with WeChat Pay or Alipay is the most common way to pay.",
+      "choices": [
+        {
+          "id": "pay-qr",
+          "text": { "zh": "扫码吧。", "zht": "掃碼吧。", "py": "Sǎo mǎ ba.", "en": "QR code, please." },
+          "grade": "best",
+          "feedback": "The most common way to pay in China. 吧 (ba) makes it a soft suggestion.",
+          "effects": [{ "type": "setFlag", "flag": "payment", "value": "qr" }],
+          "next": "goodbye"
+        },
+        {
+          "id": "pay-cash",
+          "text": { "zh": "现金吧。", "zht": "現金吧。", "py": "Xiànjīn ba.", "en": "Cash, please." },
+          "grade": "best",
+          "feedback": "Cash is accepted, though some small shops rarely keep much change these days.",
+          "effects": [{ "type": "setFlag", "flag": "payment", "value": "cash" }],
+          "next": "goodbye"
+        }
+      ]
+    },
+
+    "goodbye": {
+      "speaker": "cashier",
+      "line": { "zh": "好了，谢谢！欢迎下次再来！", "zht": "好了，謝謝！歡迎下次再來！", "py": "Hǎo le, xièxie! Huānyíng xià cì zài lái!", "en": "All set, thank you! Come again!" },
+      "choices": [
+        {
+          "id": "bye",
+          "text": { "zh": "谢谢，再见！", "zht": "謝謝，再見！", "py": "Xièxie, zàijiàn!", "en": "Thanks, goodbye!" },
+          "grade": "best",
+          "feedback": "A warm goodbye. 再见 is literally \"see again\".",
+          "next": "checkout"
+        },
+        {
+          "id": "tip",
+          "text": { "zh": "这是给你的小费。", "zht": "這是給你的小費。", "py": "Zhè shì gěi nǐ de xiǎofèi.", "en": "Here's a tip for you." },
+          "grade": "ok",
+          "feedback": "A kind thought, but tipping isn't customary in mainland China — staff will often politely refuse.",
+          "next": "checkout"
+        }
+      ]
+    },
+
+    "checkout": {
+      "speaker": "host",
+      "line": { "zh": "慢走！", "zht": "慢走！", "py": "Màn zǒu!", "en": "Take care!" },
+      "note": "慢走 (màn zǒu), literally \"walk slowly\", is a warm send-off for departing guests.",
+      "action": "checkout"
+    }
+  },
+
+  "menu": {
+    "optionGroups": {
+      "noodleShape": {
+        "type": "single",
+        "label": { "zh": "面型", "zht": "麵型", "py": "miànxíng", "en": "Noodle thickness" },
+        "note": "Lanzhou shops pull the noodles to order — you pick the shape!",
+        "choices": [
+          { "id": "maoxi", "text": { "zh": "毛细", "zht": "毛細", "py": "máoxì", "en": "hair-thin" } },
+          { "id": "erxi", "text": { "zh": "二细", "zht": "二細", "py": "èrxì", "en": "medium-thin" }, "default": true },
+          { "id": "jiuye", "text": { "zh": "韭叶", "zht": "韭葉", "py": "jiǔyè", "en": "flat (chive-leaf)" } },
+          { "id": "dakuan", "text": { "zh": "大宽", "zht": "大寬", "py": "dàkuān", "en": "extra-wide" } }
+        ]
+      },
+      "spice": {
+        "type": "single",
+        "label": { "zh": "辣度", "zht": "辣度", "py": "làdù", "en": "Spice level" },
+        "choices": [
+          { "id": "none", "text": { "zh": "不辣", "zht": "不辣", "py": "bú là", "en": "not spicy" } },
+          { "id": "less", "text": { "zh": "少辣", "zht": "少辣", "py": "shǎo là", "en": "less spicy" }, "default": true },
+          { "id": "medium", "text": { "zh": "中辣", "zht": "中辣", "py": "zhōng là", "en": "medium spicy" } },
+          { "id": "extra", "text": { "zh": "特辣", "zht": "特辣", "py": "tè là", "en": "extra spicy" } }
+        ]
+      },
+      "cilantro": {
+        "type": "single",
+        "label": { "zh": "香菜", "zht": "香菜", "py": "xiāngcài", "en": "Cilantro" },
+        "choices": [
+          { "id": "yes", "text": { "zh": "要香菜", "zht": "要香菜", "py": "yào xiāngcài", "en": "with cilantro" }, "default": true, "silent": true },
+          { "id": "no", "text": { "zh": "不要香菜", "zht": "不要香菜", "py": "bú yào xiāngcài", "en": "no cilantro" } }
+        ]
+      },
+      "extras": {
+        "type": "multi",
+        "label": { "zh": "加料", "zht": "加料", "py": "jiāliào", "en": "Add-ons" },
+        "choices": [
+          { "id": "egg", "text": { "zh": "加蛋", "zht": "加蛋", "py": "jiā dàn", "en": "add an egg" }, "price": 3 },
+          { "id": "beef", "text": { "zh": "加肉", "zht": "加肉", "py": "jiā ròu", "en": "extra beef" }, "price": 8 },
+          { "id": "noodles", "text": { "zh": "加面", "zht": "加麵", "py": "jiā miàn", "en": "extra noodles" }, "price": 4 }
+        ]
+      },
+      "temp": {
+        "type": "single",
+        "label": { "zh": "温度", "zht": "溫度", "py": "wēndù", "en": "Temperature" },
+        "choices": [
+          { "id": "cold", "text": { "zh": "冰的", "zht": "冰的", "py": "bīng de", "en": "chilled" }, "default": true },
+          { "id": "room", "text": { "zh": "常温", "zht": "常溫", "py": "chángwēn", "en": "room temperature" } }
+        ]
+      }
+    },
+
+    "categories": [
+      {
+        "id": "noodles",
+        "name": { "zh": "面食", "zht": "麵食", "py": "miànshí", "en": "Noodles" },
+        "items": [
+          {
+            "id": "beef-noodle-soup",
+            "emoji": "🍜",
+            "name": { "zh": "牛肉拉面", "zht": "牛肉拉麵", "py": "niúròu lāmiàn", "en": "beef hand-pulled noodle soup" },
+            "price": 18,
+            "tags": ["signature"],
+            "options": ["noodleShape", "spice", "cilantro", "extras"],
+            "note": "Lanzhou's famous soup follows 一清二白三红四绿五黄: clear broth, white radish, red chili oil, green herbs, yellow noodles."
+          },
+          {
+            "id": "fried-noodles",
+            "emoji": "🥡",
+            "name": { "zh": "牛肉炒拉面", "zht": "牛肉炒拉麵", "py": "niúròu chǎo lāmiàn", "en": "stir-fried pulled noodles with beef" },
+            "price": 20,
+            "tags": ["spicy"],
+            "options": ["noodleShape", "spice", "extras"]
+          },
+          {
+            "id": "tomato-egg-noodles",
+            "emoji": "🍅",
+            "name": { "zh": "番茄鸡蛋拌面", "zht": "番茄雞蛋拌麵", "py": "fānqié jīdàn bànmiàn", "en": "tossed noodles with tomato & egg" },
+            "price": 16,
+            "tags": ["vegetarian"],
+            "options": ["noodleShape", "cilantro", "extras"]
+          }
+        ]
+      },
+      {
+        "id": "sides",
+        "name": { "zh": "小菜", "zht": "小菜", "py": "xiǎocài", "en": "Side dishes" },
+        "items": [
+          {
+            "id": "smashed-cucumber",
+            "emoji": "🥒",
+            "name": { "zh": "拍黄瓜", "zht": "拍黃瓜", "py": "pāi huángguā", "en": "smashed cucumber salad" },
+            "price": 8,
+            "tags": ["vegetarian"],
+            "options": ["spice", "cilantro"]
+          },
+          {
+            "id": "braised-egg",
+            "emoji": "🥚",
+            "name": { "zh": "卤蛋", "zht": "滷蛋", "py": "lǔdàn", "en": "soy-braised egg" },
+            "price": 3
+          },
+          {
+            "id": "lamb-skewer",
+            "emoji": "🍢",
+            "name": { "zh": "羊肉串", "zht": "羊肉串", "py": "yángròu chuàn", "en": "cumin lamb skewer" },
+            "price": 5,
+            "tags": ["spicy"],
+            "options": ["spice"],
+            "note": "Priced per skewer. 串 (chuàn) is also the measure word: 五串 = five skewers."
+          }
+        ]
+      },
+      {
+        "id": "drinks",
+        "name": { "zh": "饮料", "zht": "飲料", "py": "yǐnliào", "en": "Drinks" },
+        "items": [
+          {
+            "id": "ice-water",
+            "emoji": "🧊",
+            "name": { "zh": "冰水", "zht": "冰水", "py": "bīng shuǐ", "en": "ice water" },
+            "price": 0,
+            "note": "Many restaurants serve warm water or tea by default — ask for 冰水 if you want it cold."
+          },
+          {
+            "id": "hot-tea",
+            "emoji": "🍵",
+            "name": { "zh": "热茶", "zht": "熱茶", "py": "rè chá", "en": "hot tea" },
+            "price": 2
+          },
+          {
+            "id": "sour-plum",
+            "emoji": "🧃",
+            "name": { "zh": "酸梅汤", "zht": "酸梅湯", "py": "suānméi tāng", "en": "sour plum drink" },
+            "price": 6,
+            "options": ["temp"]
+          },
+          {
+            "id": "cola",
+            "emoji": "🥤",
+            "name": { "zh": "可乐", "zht": "可樂", "py": "kělè", "en": "cola" },
+            "price": 5,
+            "options": ["temp"],
+            "note": "Drinks are often served at room temperature — ask for 冰的 (bīng de) to get one chilled."
+          }
+        ]
+      }
+    ]
+  }
+}

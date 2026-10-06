@@ -1,0 +1,138 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://wok-and-talk/schemas/player-state.schema.json",
+  "title": "Wok & Talk — Player Save",
+  "description": "An exported save file. Import also accepts a bare PlayerState (the `state` object on its own). Runtime enforcement lives in js/core/schema.js — keep the two in sync.",
+  "type": "object",
+  "required": ["app", "schemaVersion", "state"],
+  "properties": {
+    "app": { "const": "wok-and-talk" },
+    "schemaVersion": { "type": "integer", "minimum": 1 },
+    "exportedAt": { "type": "string", "format": "date-time" },
+    "state": { "$ref": "#/$defs/PlayerState" }
+  },
+
+  "$defs": {
+    "PlayerState": {
+      "type": "object",
+      "required": ["meta", "profile", "settings", "wallet", "progress", "restaurants", "phrasebook", "activeMeal"],
+      "properties": {
+        "meta": {
+          "type": "object",
+          "required": ["app", "schemaVersion", "createdAt", "updatedAt"],
+          "properties": {
+            "app": { "const": "wok-and-talk" },
+            "schemaVersion": { "type": "integer", "minimum": 1, "description": "Bumped on breaking changes; older saves are upgraded by MIGRATIONS in js/core/schema.js." },
+            "createdAt": { "type": "string", "format": "date-time" },
+            "updatedAt": { "type": "string", "format": "date-time" }
+          }
+        },
+        "profile": {
+          "type": "object",
+          "required": ["name"],
+          "properties": { "name": { "type": "string", "minLength": 1, "maxLength": 40 } }
+        },
+        "settings": {
+          "type": "object",
+          "required": ["showPinyin", "showEnglish", "script", "autoSpeak", "speechRate"],
+          "properties": {
+            "showPinyin": { "type": "boolean" },
+            "showEnglish": { "type": "boolean" },
+            "script": { "enum": ["simplified", "traditional"] },
+            "autoSpeak": { "type": "boolean" },
+            "speechRate": { "type": "number", "minimum": 0.5, "maximum": 1.5 }
+          }
+        },
+        "wallet": {
+          "type": "object",
+          "required": ["cny"],
+          "properties": { "cny": { "type": "integer", "minimum": 0, "description": "Renminbi (¥) on hand." } }
+        },
+        "progress": {
+          "type": "object",
+          "required": ["exp", "mealsCompleted", "badges"],
+          "properties": {
+            "exp": { "type": "integer", "minimum": 0, "description": "Foodie EXP. Level = floor(exp / 100) + 1." },
+            "mealsCompleted": { "type": "integer", "minimum": 0 },
+            "badges": {
+              "type": "object",
+              "description": "badgeId → ISO date earned.",
+              "additionalProperties": { "type": "string", "format": "date-time" }
+            }
+          }
+        },
+        "restaurants": {
+          "type": "object",
+          "description": "restaurantId → progress at that restaurant.",
+          "additionalProperties": { "$ref": "#/$defs/RestaurantProgress" }
+        },
+        "phrasebook": {
+          "type": "object",
+          "description": "\"restaurantId/nodeId/choiceId\" → how often the player picked that reply. Basis for future spaced-repetition review.",
+          "additionalProperties": {
+            "type": "object",
+            "required": ["seen", "correct"],
+            "properties": {
+              "seen": { "type": "integer", "minimum": 0 },
+              "correct": { "type": "integer", "minimum": 0 },
+              "lastSeenAt": { "type": ["string", "null"], "format": "date-time" }
+            }
+          }
+        },
+        "activeMeal": {
+          "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/ActiveMeal" }]
+        }
+      }
+    },
+
+    "RestaurantProgress": {
+      "type": "object",
+      "required": ["visits", "completions", "bestScore", "bestStars"],
+      "properties": {
+        "visits": { "type": "integer", "minimum": 0 },
+        "completions": { "type": "integer", "minimum": 0 },
+        "bestScore": { "type": "integer", "minimum": 0, "maximum": 100, "description": "Best conversation score, percent." },
+        "bestStars": { "type": "integer", "minimum": 0, "maximum": 3 },
+        "lastVisitedAt": { "type": ["string", "null"], "format": "date-time" }
+      }
+    },
+
+    "ActiveMeal": {
+      "type": "object",
+      "description": "A meal in progress, so a reload resumes mid-conversation.",
+      "required": ["restaurantId", "nodeId", "order", "score", "maxScore", "answered", "flags", "startedAt"],
+      "properties": {
+        "restaurantId": { "type": "string" },
+        "nodeId": { "type": "string", "description": "Current dialogue node." },
+        "order": { "type": "array", "items": { "$ref": "#/$defs/OrderLine" } },
+        "score": { "type": "integer", "minimum": 0 },
+        "maxScore": { "type": "integer", "minimum": 0 },
+        "answered": {
+          "type": "object",
+          "description": "nodeIds already scored (only the first graded attempt counts).",
+          "additionalProperties": { "const": true }
+        },
+        "flags": {
+          "type": "object",
+          "description": "Set by dialogue choice effects; read by `requires` clauses.",
+          "additionalProperties": { "type": ["string", "number", "boolean"] }
+        },
+        "startedAt": { "type": "string", "format": "date-time" }
+      }
+    },
+
+    "OrderLine": {
+      "type": "object",
+      "required": ["itemId", "qty", "choices"],
+      "properties": {
+        "itemId": { "type": "string" },
+        "qty": { "type": "integer", "minimum": 1, "maximum": 20 },
+        "choices": {
+          "type": "object",
+          "description": "optionGroupId → selected choice ids.",
+          "additionalProperties": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,166 @@
+/* ==========================================================================
+   Wok & Talk — base: design tokens, reset, layout shell, screens
+   ========================================================================== */
+
+:root {
+  --bg: #fff6ea;
+  --bg-dot: #f6e3c9;
+  --surface: #ffffff;
+  --surface-2: #fff0dc;
+  --ink: #2b1d14;
+  --ink-soft: #6f5646;
+  --line: #ecd6bb;
+
+  --red: #c8102e;
+  --red-deep: #9e0c24;
+  --on-red: #fff4e2;
+  --gold: #f2a93b;
+  --gold-soft: #ffe2a8;
+
+  --best: #1f8a70;
+  --best-bg: #e3f5ee;
+  --ok: #b77400;
+  --ok-bg: #fff2d6;
+  --wrong: #c43b3b;
+  --wrong-bg: #fde7e5;
+
+  --radius: 18px;
+  --radius-sm: 12px;
+  --shadow: 0 1px 0 rgb(120 60 20 / .06), 0 8px 24px rgb(120 60 20 / .10);
+  --shadow-lift: 0 2px 0 rgb(120 60 20 / .08), 0 14px 32px rgb(120 60 20 / .16);
+
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+          "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif;
+  --font-hans: "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Source Han Sans SC", "Microsoft YaHei", sans-serif;
+  --font-hant: "PingFang TC", "Hiragino Sans CNS", "Noto Sans CJK TC", "Source Han Sans TC", "Microsoft JhengHei", sans-serif;
+
+  --gutter: 16px;
+  --max: 720px;
+  --topbar-h: 56px;
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1c1310;
+    --bg-dot: #261a15;
+    --surface: #2a1e18;
+    --surface-2: #33251d;
+    --ink: #f8ebdc;
+    --ink-soft: #c9ae98;
+    --line: #47352a;
+    --red: #e0384f;
+    --red-deep: #b51f37;
+    --gold-soft: #5a4320;
+    --best: #4cc59f;
+    --best-bg: #17352b;
+    --ok: #f0b44c;
+    --ok-bg: #3b2c12;
+    --wrong: #f07b72;
+    --wrong-bg: #3d1c1a;
+    --shadow: 0 1px 0 rgb(0 0 0 / .3), 0 8px 24px rgb(0 0 0 / .35);
+    --shadow-lift: 0 2px 0 rgb(0 0 0 / .3), 0 14px 32px rgb(0 0 0 / .45);
+    color-scheme: dark;
+  }
+}
+
+/* ---------- Reset ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  min-height: 100dvh;
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--ink);
+  background-color: var(--bg);
+  background-image: radial-gradient(var(--bg-dot) 1.2px, transparent 1.2px);
+  background-size: 18px 18px;
+}
+img, svg { display: block; max-width: 100%; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+button:disabled { cursor: not-allowed; }
+h1, h2, h3, p { margin: 0; }
+[hidden] { display: none !important; }
+:lang(zh-Hans) { font-family: var(--font-hans); }
+:lang(zh-Hant) { font-family: var(--font-hant); }
+:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; border-radius: 6px; }
+
+.skip-link {
+  position: absolute; left: -9999px; top: 8px; z-index: 100;
+  background: var(--surface); padding: 8px 12px; border-radius: 8px;
+}
+.skip-link:focus { left: 8px; }
+.visually-hidden {
+  position: absolute !important; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+
+/* ---------- Script & layer visibility (driven by classes on <html>) ---------- */
+.zh-t { display: none; }
+.script-traditional .zh-s { display: none; }
+.script-traditional .zh-t { display: inline; }
+
+.hide-pinyin .tri:not(.peek) > .tri-py,
+.hide-english .tri:not(.peek) > .tri-en { display: none; }
+
+/* ---------- Top bar ---------- */
+.topbar {
+  position: sticky; top: 0; z-index: 20;
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  height: calc(var(--topbar-h) + env(safe-area-inset-top));
+  padding: env(safe-area-inset-top) var(--gutter) 0;
+  background: var(--red);
+  color: var(--on-red);
+  box-shadow: 0 3px 0 var(--gold);
+}
+.brand {
+  display: flex; align-items: center; gap: 8px; min-width: 0;
+  background: none; border: 0; padding: 4px 0; color: inherit;
+}
+.brand-mark { font-size: 24px; }
+.brand-name { font-weight: 800; letter-spacing: .01em; font-size: 18px; white-space: nowrap; }
+.brand-tag { font-size: 13px; opacity: .85; white-space: nowrap; }
+.topbar-stats { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+.chip {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 10px; border-radius: 999px;
+  font-size: 14px; font-weight: 700; white-space: nowrap;
+  background: rgb(255 255 255 / .16);
+}
+.chip-wallet { background: var(--gold); color: #3a2100; }
+.icon-btn {
+  display: grid; place-items: center;
+  width: 40px; height: 40px; border-radius: 50%;
+  border: 0; background: rgb(255 255 255 / .14); color: inherit; font-size: 18px;
+}
+.icon-btn:hover { background: rgb(255 255 255 / .24); }
+
+@media (max-width: 380px) {
+  .brand-tag { display: none; }
+}
+
+/* ---------- Screens ---------- */
+main {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 16px var(--gutter) calc(32px + env(safe-area-inset-bottom));
+  outline: none;
+}
+.screen:not([hidden]) { animation: screen-in .28s ease-out; }
+@keyframes screen-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+
+.loading { display: grid; place-items: center; gap: 12px; padding: 80px 0; color: var(--ink-soft); }
+.steam { font-size: 56px; animation: bob 1.4s ease-in-out infinite; }
+@keyframes bob { 50% { transform: translateY(-6px); } }
+
+.noscript { padding: 24px; text-align: center; }

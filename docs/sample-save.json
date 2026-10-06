@@ -1,0 +1,57 @@
+{
+  "app": "wok-and-talk",
+  "schemaVersion": 1,
+  "exportedAt": "2026-10-06T10:25:32.166Z",
+  "state": {
+    "meta": {
+      "app": "wok-and-talk",
+      "schemaVersion": 1,
+      "createdAt": "2026-10-06T10:23:16.287Z",
+      "updatedAt": "2026-10-06T10:24:17.954Z"
+    },
+    "profile": {
+      "name": "Foodie"
+    },
+    "settings": {
+      "showPinyin": true,
+      "showEnglish": false,
+      "script": "traditional",
+      "autoSpeak": false,
+      "speechRate": 0.9
+    },
+    "wallet": {
+      "cny": 111
+    },
+    "progress": {
+      "exp": 56,
+      "mealsCompleted": 1,
+      "badges": {
+        "first-bite": "2026-10-06T10:24:05.667Z",
+        "cilantro-begone": "2026-10-06T10:24:05.667Z",
+        "spice-warrior": "2026-10-06T10:24:05.667Z"
+      }
+    },
+    "restaurants": {
+      "noodle-shop": {
+        "visits": 1,
+        "completions": 1,
+        "bestScore": 86,
+        "bestStars": 2,
+        "lastVisitedAt": "2026-10-06T10:23:16.413Z"
+      }
+    },
+    "phrasebook": {
+      "noodle-shop/greet/one-wei": {
+        "seen": 1,
+        "correct": 1,
+        "lastSeenAt": "2026-10-06T10:23:26.414Z"
+      },
+      "noodle-shop/bill/call-maidan": {
+        "seen": 1,
+        "correct": 1,
+        "lastSeenAt": "2026-10-06T10:23:58.427Z"
+      }
+    },
+    "activeMeal": null
+  }
+}
