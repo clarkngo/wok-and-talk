@@ -35,6 +35,7 @@ js/
   ui/                 One module per screen/modal. Reads state, calls actions, renders DOM.
     dom.js            h() hyperscript helper (text-only, so no HTML injection)
     text.js           tri(): renders {zh, zht, py, en} as stacked layers + 🔊 button
+    voice.js          Tap-to-speak: one delegated listener reads any [lang|=zh] text aloud
     screens.js        Screen router
     hub.js / dining.js / menu.js / checkout.js / settings.js / toast.js
 data/
@@ -50,7 +51,7 @@ tools/
 
 **Screen flow:** `Hub → Dining Room ⇄ Menu Modal → Dining Room → Checkout → Hub`. The dining room is driven entirely by the restaurant's dialogue graph. A node's `action` hands off to the menu modal (`openMenu`) or to checkout (`checkout`).
 
-**Language layers:** every string is `{ zh, zht?, py, en }`. `tri()` renders all layers. Classes on `<html>` (`hide-pinyin`, `hide-english`, `script-traditional`) decide what's visible, so toggles are instant and never re-render. When a layer is hidden, tapping a line peeks at it.
+**Language layers:** every string is `{ zh, zht?, py, en }`. `tri()` renders all layers. Classes on `<html>` (`hide-pinyin`, `hide-english`, `script-traditional`) decide what's visible, so toggles are instant and never re-render. When a layer is hidden, tapping a line peeks at it. Tapping any Chinese text speaks it (Settings › *Tap Chinese to hear it*). Mark controls that aren't meant to be read with `data-no-speak`.
 
 ## Player state (`localStorage["wok-and-talk/save"]`)
 

@@ -17,6 +17,7 @@ export function applySettings(settings) {
   root.classList.toggle('hide-pinyin', !settings.showPinyin);
   root.classList.toggle('hide-english', !settings.showEnglish);
   root.classList.toggle('script-traditional', settings.script === 'traditional');
+  root.classList.toggle('tap-speak', settings.tapToSpeak);
   syncSettingControls(settings);
 }
 
@@ -86,13 +87,14 @@ function render() {
         h('div', { class: 'seg-row' },
           h('strong', null, 'Characters'),
           h('div', { class: 'segmented', role: 'group', 'aria-label': 'Character set' },
-            h('button', { type: 'button', 'data-setting': 'script', 'data-value': 'simplified', 'data-off': 'simplified', lang: 'zh-Hans' }, '简体 Simplified'),
-            h('button', { type: 'button', 'data-setting': 'script', 'data-value': 'traditional', 'data-off': 'traditional', lang: 'zh-Hant' }, '繁體 Traditional')))),
+            h('button', { type: 'button', 'data-setting': 'script', 'data-value': 'simplified', 'data-off': 'simplified', lang: 'zh-Hans', 'data-no-speak': '' }, '简体 Simplified'),
+            h('button', { type: 'button', 'data-setting': 'script', 'data-value': 'traditional', 'data-off': 'traditional', lang: 'zh-Hant', 'data-no-speak': '' }, '繁體 Traditional')))),
 
       h('section', { class: 'settings-section' },
         h('h3', null, 'Audio'),
         canSpeak
           ? [
+              switchRow('tapToSpeak', 'Tap Chinese to hear it', 'Tap any Chinese characters in the game to hear them spoken'),
               switchRow('autoSpeak', 'Read lines aloud', hasChineseVoice() ? 'Uses your device’s Mandarin voice' : 'No Mandarin voice found — install one in your OS settings'),
               h('label', { class: 'range-row' },
                 h('strong', null, 'Speech speed'),

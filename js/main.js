@@ -13,6 +13,7 @@ import { initDining, enterDining } from './ui/dining.js';
 import { initMenu } from './ui/menu.js';
 import { initCheckout, renderCheckout } from './ui/checkout.js';
 import { initSettings, applySettings } from './ui/settings.js';
+import { initTapToSpeak } from './ui/voice.js';
 
 const nav = {
   toHub() {
@@ -75,6 +76,7 @@ async function boot() {
   });
 
   wireGlobalUI();
+  initTapToSpeak();
   initSettings();
   initMenu();
 

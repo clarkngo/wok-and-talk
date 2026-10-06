@@ -16,13 +16,18 @@ if (canSpeak) {
   speechSynthesis.addEventListener?.('voiceschanged', pickVoice);
 }
 
-export function speak(text, rate = 0.9) {
+/** Speak Mandarin text. `onDone` fires when it ends, errors, or is cut off by another speak(). */
+export function speak(text, rate = 0.9, { onDone } = {}) {
   if (!canSpeak || !text) return;
   speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(text);
   u.lang = voice?.lang ?? 'zh-CN';
   if (voice) u.voice = voice;
   u.rate = rate;
+  if (onDone) {
+    u.onend = onDone;
+    u.onerror = onDone;
+  }
   speechSynthesis.speak(u);
 }
 

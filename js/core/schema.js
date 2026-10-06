@@ -22,6 +22,7 @@ export function createDefaultState(now = new Date().toISOString()) {
       showEnglish: true,
       script: 'simplified', // 'simplified' | 'traditional'
       autoSpeak: false,
+      tapToSpeak: true, // tap any Chinese text to hear it
       speechRate: 0.9,
     },
     wallet: { cny: STARTING_CNY },
@@ -87,6 +88,7 @@ function sanitize(raw) {
     showEnglish: bool(st.showEnglish, true),
     script: st.script === 'traditional' ? 'traditional' : 'simplified',
     autoSpeak: bool(st.autoSpeak, false),
+    tapToSpeak: bool(st.tapToSpeak, true),
     speechRate: clamp(num(st.speechRate, 0.9), 0.5, 1.5),
   };
 
