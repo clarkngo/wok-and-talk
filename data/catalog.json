@@ -1,0 +1,93 @@
+{
+  "$schema": "../schemas/catalog.schema.json",
+  "schemaVersion": 1,
+  "restaurants": [
+    {
+      "id": "noodle-shop",
+      "status": "playable",
+      "emoji": "🍜",
+      "difficulty": 1,
+      "colors": ["#ffd27a", "#ef6b3a"],
+      "name": { "zh": "兰州拉面馆", "zht": "蘭州拉麵館", "py": "Lánzhōu Lāmiàn Guǎn", "en": "Lanzhou Hand-Pulled Noodle House" },
+      "cuisine": { "zh": "面馆", "zht": "麵館", "py": "miànguǎn", "en": "Noodle Shop" },
+      "blurb": "Get seated, pick your noodle thickness, skip the cilantro, and ask for the bill."
+    },
+    {
+      "id": "fast-casual",
+      "status": "coming_soon",
+      "emoji": "🍱",
+      "difficulty": 1,
+      "colors": ["#b9e4c9", "#3fa37a"],
+      "name": { "zh": "好味快餐", "zht": "好味快餐", "py": "Hǎowèi Kuàicān", "en": "Tasty Express" },
+      "cuisine": { "zh": "快餐", "zht": "快餐", "py": "kuàicān", "en": "Fast Casual" },
+      "blurb": "Order at the counter, choose your sides, and take it to go (打包)."
+    },
+    {
+      "id": "dim-sum",
+      "status": "coming_soon",
+      "emoji": "🥟",
+      "difficulty": 2,
+      "colors": ["#ffe3a3", "#d9902b"],
+      "name": { "zh": "金龙茶楼", "zht": "金龍茶樓", "py": "Jīnlóng Chálóu", "en": "Golden Dragon Teahouse" },
+      "cuisine": { "zh": "饮茶", "zht": "飲茶", "py": "yǐnchá", "en": "Dim Sum" },
+      "blurb": "Flag down the carts, pour tea for others, and tap the table to say thanks."
+    },
+    {
+      "id": "hot-pot",
+      "status": "coming_soon",
+      "emoji": "🍲",
+      "difficulty": 2,
+      "colors": ["#ffb199", "#c8102e"],
+      "name": { "zh": "重庆老火锅", "zht": "重慶老火鍋", "py": "Chóngqìng Lǎo Huǒguō", "en": "Old Chongqing Hot Pot" },
+      "cuisine": { "zh": "火锅", "zht": "火鍋", "py": "huǒguō", "en": "Hot Pot" },
+      "blurb": "Choose a split broth (鸳鸯锅), mix your dipping sauce, and order by the plate."
+    },
+    {
+      "id": "sichuan",
+      "status": "coming_soon",
+      "emoji": "🌶️",
+      "difficulty": 3,
+      "colors": ["#f7a6a6", "#9e0c24"],
+      "name": { "zh": "蜀香川菜馆", "zht": "蜀香川菜館", "py": "Shǔxiāng Chuāncàiguǎn", "en": "Shu Fragrance Sichuan Kitchen" },
+      "cuisine": { "zh": "川菜", "zht": "川菜", "py": "Chuāncài", "en": "Sichuan" },
+      "blurb": "Share family-style dishes, survive the 麻辣 heat, and toast with 干杯."
+    }
+  ],
+  "badges": [
+    {
+      "id": "first-bite",
+      "emoji": "🥢",
+      "name": { "zh": "第一口", "zht": "第一口", "py": "dì yī kǒu", "en": "First Bite" },
+      "hint": "Finish your first meal.",
+      "condition": { "type": "mealsCompleted", "count": 1 }
+    },
+    {
+      "id": "noodle-master",
+      "emoji": "🏅",
+      "name": { "zh": "拉面达人", "zht": "拉麵達人", "py": "lāmiàn dárén", "en": "Noodle Master" },
+      "hint": "Get a perfect conversation score at the noodle house.",
+      "condition": { "type": "perfectMeal", "restaurant": "noodle-shop" }
+    },
+    {
+      "id": "cilantro-begone",
+      "emoji": "🌿",
+      "name": { "zh": "香菜退散", "zht": "香菜退散", "py": "xiāngcài tuìsàn", "en": "Cilantro Begone" },
+      "hint": "Order a dish with 不要香菜.",
+      "condition": { "type": "orderedChoice", "group": "cilantro", "choice": "no" }
+    },
+    {
+      "id": "spice-warrior",
+      "emoji": "🔥",
+      "name": { "zh": "不怕辣", "zht": "不怕辣", "py": "bú pà là", "en": "Spice Warrior" },
+      "hint": "Order something 特辣 (extra spicy).",
+      "condition": { "type": "orderedChoice", "group": "spice", "choice": "extra" }
+    },
+    {
+      "id": "regular",
+      "emoji": "🏮",
+      "name": { "zh": "常客", "zht": "常客", "py": "chángkè", "en": "Regular" },
+      "hint": "Finish 5 meals.",
+      "condition": { "type": "mealsCompleted", "count": 5 }
+    }
+  ]
+}

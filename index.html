@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Wok &amp; Talk · 边吃边学</title>
+  <meta name="description" content="Learn restaurant Mandarin by eating your way through Chinese restaurants.">
+  <meta name="theme-color" content="#c8102e">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🥢</text></svg>">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <script type="module" src="js/main.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#app">Skip to content</a>
+
+  <header class="topbar">
+    <button class="brand" type="button" data-nav="hub" aria-label="Wok and Talk — back to restaurant hub">
+      <span class="brand-mark" aria-hidden="true">🥢</span>
+      <span class="brand-name">Wok &amp; Talk</span>
+      <span class="brand-tag" aria-hidden="true"><span class="zh-s" lang="zh-Hans">边吃边学</span><span class="zh-t" lang="zh-Hant">邊吃邊學</span></span>
+    </button>
+    <div class="topbar-stats">
+      <span class="chip chip-level" id="stat-level" title="Foodie level">Lv 1</span>
+      <span class="chip chip-wallet" id="stat-wallet" title="Wallet (RMB)">¥100</span>
+      <button class="icon-btn" type="button" data-open="settings" aria-label="Settings and save data">⚙️</button>
+    </div>
+  </header>
+
+  <main id="app" tabindex="-1">
+    <section class="screen" data-screen="loading">
+      <div class="loading"><span class="steam" aria-hidden="true">🍜</span><p>Warming up the wok…</p></div>
+    </section>
+    <section class="screen" data-screen="hub" aria-label="Restaurant hub" hidden></section>
+    <section class="screen" data-screen="dining" aria-label="Dining room" hidden></section>
+    <section class="screen" data-screen="checkout" aria-label="Checkout" hidden></section>
+    <section class="screen" data-screen="error" aria-label="Error" hidden></section>
+  </main>
+
+  <dialog id="menu-dialog" class="sheet" aria-label="Menu"></dialog>
+  <dialog id="settings-dialog" class="sheet" aria-label="Settings"></dialog>
+  <div id="toasts" class="toasts" role="status" aria-live="polite"></div>
+
+  <noscript><p class="noscript">Wok &amp; Talk needs JavaScript to run.</p></noscript>
+</body>
+</html>

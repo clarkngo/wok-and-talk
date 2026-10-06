@@ -1,0 +1,180 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://wok-and-talk/schemas/restaurant.schema.json",
+  "title": "Wok & Talk — Restaurant",
+  "description": "One playable restaurant: NPCs, a dialogue graph, and a menu. File: data/restaurants/<id>.json. Cross-reference checks (node ids, option groups, reachability) are done by tools/validate-content.mjs.",
+  "type": "object",
+  "required": ["schemaVersion", "id", "name", "scene", "startNode", "rewards", "npcs", "dialogue", "menu"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "schemaVersion": { "const": 1 },
+    "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+    "name": { "$ref": "#/$defs/Text" },
+    "scene": {
+      "type": "object",
+      "required": ["colors"],
+      "properties": {
+        "emoji": { "type": "string" },
+        "props": { "type": "array", "maxItems": 4, "items": { "type": "string" }, "description": "Decorative emoji placed around the scene." },
+        "colors": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "type": "string" }, "description": "Backdrop gradient [from, to]." }
+      }
+    },
+    "startNode": { "type": "string" },
+    "rewards": {
+      "type": "object",
+      "required": ["exp", "cny"],
+      "description": "Base rewards for a perfect meal; scaled 50–100% by conversation score.",
+      "properties": {
+        "exp": { "type": "integer", "minimum": 0 },
+        "cny": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "npcs": {
+      "type": "object",
+      "description": "npcId → NPC. Dialogue nodes reference these ids (or \"narrator\").",
+      "additionalProperties": { "$ref": "#/$defs/Npc" }
+    },
+    "dialogue": {
+      "type": "object",
+      "description": "nodeId → node. A directed graph starting at startNode.",
+      "additionalProperties": { "$ref": "#/$defs/Node" }
+    },
+    "menu": { "$ref": "#/$defs/Menu" }
+  },
+
+  "$defs": {
+    "Text": {
+      "type": "object",
+      "description": "Trilingual text. `{placeholders}` like {order} and {total} are filled at runtime.",
+      "required": ["zh", "py", "en"],
+      "properties": {
+        "zh": { "type": "string", "description": "Simplified Chinese." },
+        "zht": { "type": "string", "description": "Traditional Chinese (falls back to zh)." },
+        "py": { "type": "string", "description": "Hanyu Pinyin with tone marks, tone sandhi applied as spoken (e.g. yí wèi)." },
+        "en": { "type": "string" }
+      }
+    },
+
+    "Npc": {
+      "type": "object",
+      "required": ["avatar", "name"],
+      "properties": {
+        "avatar": { "type": "string", "description": "Emoji (or later, an image path)." },
+        "name": { "$ref": "#/$defs/Text" }
+      }
+    },
+
+    "Node": {
+      "type": "object",
+      "required": ["speaker"],
+      "description": "Exactly one of: `choices` (player replies), `action` (UI hand-off), or just `next` (Continue button).",
+      "properties": {
+        "speaker": { "type": "string", "description": "npc id or \"narrator\"." },
+        "line": { "$ref": "#/$defs/Text" },
+        "note": { "type": "string", "description": "Cultural / grammar note shown under the line." },
+        "next": { "type": "string" },
+        "action": { "enum": ["openMenu", "checkout"], "description": "openMenu → menu modal, then `next`. checkout → pay & finish." },
+        "choices": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/Choice" } }
+      }
+    },
+
+    "Choice": {
+      "type": "object",
+      "required": ["id", "text"],
+      "properties": {
+        "id": { "type": "string", "description": "Unique within its node; used for phrasebook stats." },
+        "text": { "$ref": "#/$defs/Text" },
+        "grade": {
+          "enum": ["best", "ok", "wrong", "neutral"],
+          "default": "neutral",
+          "description": "best=10 pts, ok=5, wrong=0. A wrong choice without `next` makes the player retry. neutral is unscored."
+        },
+        "feedback": { "type": "string", "description": "Why this reply is (in)correct." },
+        "note": { "type": "string", "description": "Extra cultural / pronunciation tip." },
+        "next": { "type": "string", "description": "Defaults to the node's `next`." },
+        "effects": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["type", "flag"],
+            "properties": {
+              "type": { "const": "setFlag" },
+              "flag": { "type": "string" },
+              "value": { "type": ["string", "number", "boolean"], "default": true }
+            }
+          }
+        },
+        "requires": {
+          "type": "object",
+          "description": "Only show this choice when every listed flag has the given value.",
+          "properties": {
+            "flags": { "type": "object", "additionalProperties": { "type": ["string", "number", "boolean"] } }
+          }
+        }
+      }
+    },
+
+    "Menu": {
+      "type": "object",
+      "required": ["optionGroups", "categories"],
+      "properties": {
+        "optionGroups": {
+          "type": "object",
+          "description": "groupId → customization group, shared by any items that list it.",
+          "additionalProperties": { "$ref": "#/$defs/OptionGroup" }
+        },
+        "categories": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "name", "items"],
+            "properties": {
+              "id": { "type": "string" },
+              "name": { "$ref": "#/$defs/Text" },
+              "items": { "type": "array", "items": { "$ref": "#/$defs/MenuItem" } }
+            }
+          }
+        }
+      }
+    },
+
+    "OptionGroup": {
+      "type": "object",
+      "required": ["type", "label", "choices"],
+      "properties": {
+        "type": { "enum": ["single", "multi"] },
+        "label": { "$ref": "#/$defs/Text" },
+        "note": { "type": "string" },
+        "choices": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["id", "text"],
+            "properties": {
+              "id": { "type": "string" },
+              "text": { "$ref": "#/$defs/Text", "description": "What the player says, e.g. 不要香菜." },
+              "price": { "type": "number", "minimum": 0, "description": "Surcharge in ¥." },
+              "default": { "type": "boolean", "description": "Pre-selected (single groups default to the first choice otherwise)." },
+              "silent": { "type": "boolean", "description": "Omit from spoken order phrases (e.g. the implicit 要香菜)." }
+            }
+          }
+        }
+      }
+    },
+
+    "MenuItem": {
+      "type": "object",
+      "required": ["id", "name", "price"],
+      "properties": {
+        "id": { "type": "string" },
+        "emoji": { "type": "string" },
+        "name": { "$ref": "#/$defs/Text", "description": "Write `en` in lower case; the UI capitalizes where needed." },
+        "price": { "type": "number", "minimum": 0 },
+        "tags": { "type": "array", "items": { "enum": ["signature", "vegetarian", "spicy"] } },
+        "options": { "type": "array", "items": { "type": "string" }, "description": "optionGroup ids, in display order." },
+        "note": { "type": "string" }
+      }
+    }
+  }
+}
