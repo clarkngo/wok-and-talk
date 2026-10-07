@@ -24,13 +24,13 @@
     },
     {
       "id": "dim-sum",
-      "status": "coming_soon",
+      "status": "playable",
       "emoji": "🥟",
       "difficulty": 2,
       "colors": ["#ffe3a3", "#d9902b"],
       "name": { "zh": "金龙茶楼", "zht": "金龍茶樓", "py": "Jīnlóng Chálóu", "en": "Golden Dragon Teahouse" },
       "cuisine": { "zh": "饮茶", "zht": "飲茶", "py": "yǐnchá", "en": "Dim Sum" },
-      "blurb": "Flag down the carts, pour tea for others, and tap the table to say thanks."
+      "blurb": "Pick a tea, flag down the carts, learn the finger-tap thank-you, and politely fight over the bill."
     },
     {
       "id": "hot-pot",
@@ -81,6 +81,27 @@
       "name": { "zh": "不怕辣", "zht": "不怕辣", "py": "bú pà là", "en": "Spice Warrior" },
       "hint": "Order something 特辣 (extra spicy).",
       "condition": { "type": "orderedChoice", "group": "spice", "choice": "extra" }
+    },
+    {
+      "id": "finger-tap",
+      "emoji": "🫖",
+      "name": { "zh": "叩指礼", "zht": "叩指禮", "py": "kòuzhǐ lǐ", "en": "Finger Tap" },
+      "hint": "Learn the silent tea-pouring thank-you at the teahouse.",
+      "condition": { "type": "mealFlag", "flag": "knowsFingerTap", "restaurant": "dim-sum" }
+    },
+    {
+      "id": "dim-sum-master",
+      "emoji": "🥟",
+      "name": { "zh": "饮茶达人", "zht": "飲茶達人", "py": "yǐnchá dárén", "en": "Dim Sum Master" },
+      "hint": "Get a perfect conversation score at the teahouse.",
+      "condition": { "type": "perfectMeal", "restaurant": "dim-sum" }
+    },
+    {
+      "id": "explorer",
+      "emoji": "🧭",
+      "name": { "zh": "吃货", "zht": "吃貨", "py": "chīhuò", "en": "Foodie Explorer" },
+      "hint": "Finish meals at 2 different restaurants.",
+      "condition": { "type": "restaurantsCompleted", "count": 2 }
     },
     {
       "id": "regular",

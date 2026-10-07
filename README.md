@@ -37,4 +37,5 @@ See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the module layout, data flo
 | Restaurant | Status |
 |---|---|
 | 🍜 兰州拉面馆 Lanzhou Noodle House | ✅ Playable |
-| 🍱 快餐 Fast Casual · 🥟 饮茶 Dim Sum · 🍲 火锅 Hot Pot · 🌶️ 川菜 Sichuan | 🚧 Coming soon |
+| 🥟 金龙茶楼 Golden Dragon Teahouse (Dim Sum) | ✅ Playable |
+| 🍱 快餐 Fast Casual · 🍲 火锅 Hot Pot · 🌶️ 川菜 Sichuan | 🚧 Coming soon |

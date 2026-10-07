@@ -1,5 +1,7 @@
 // Dialogue-tree helpers. Pure functions — no DOM, no state access.
 
+import { addLine, defaultChoices, getItem } from './order.js';
+
 export const POINTS = { best: 10, ok: 5, wrong: 0, neutral: 0 };
 export const MAX_POINTS = POINTS.best;
 export const ACTIONS = ['openMenu', 'checkout'];
@@ -36,12 +38,21 @@ export function resolveChoice(node, choice) {
   };
 }
 
-/** Apply a choice's effects to a flags object (mutates and returns it). */
-export function applyEffects(flags, effects = []) {
+/**
+ * Apply a choice's effects to the in-progress meal (mutates and returns it).
+ *   setFlag: { flag, value? }             → meal.flags[flag] = value ?? true
+ *   addItem: { item, qty?, choices? }     → adds a line to meal.order (e.g. tea, a cart dish)
+ */
+export function applyEffects(meal, effects = [], menu) {
   for (const fx of effects) {
-    if (fx.type === 'setFlag') flags[fx.flag] = fx.value ?? true;
+    if (fx.type === 'setFlag') {
+      meal.flags[fx.flag] = fx.value ?? true;
+    } else if (fx.type === 'addItem') {
+      const choices = { ...defaultChoices(menu, getItem(menu, fx.item)), ...fx.choices };
+      meal.order = addLine(meal.order, { itemId: fx.item, qty: fx.qty ?? 1, choices });
+    }
   }
-  return flags;
+  return meal;
 }
 
 /**

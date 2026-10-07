@@ -123,9 +123,9 @@ Formal spec: [`schemas/restaurant.schema.json`](../schemas/restaurant.schema.jso
 **Dialogue rules**
 - A node has `choices` (player replies), an `action`, or only `next` (Continue button).
 - `grade`: `best` = 10 pts, `ok` = 5, `wrong` = 0, `neutral` = unscored. Only the first graded answer on each node counts. A `wrong` choice with no `next` lets the player try again.
-- `effects: [{ "type": "setFlag", "flag": "payment", "value": "qr" }]` sets meal flags. `requires: { "flags": { "askedChopsticks": true } }` shows a choice only when those flags match.
+- `effects: [{ "type": "setFlag", "flag": "payment", "value": "qr" }]` sets meal flags. `{ "type": "addItem", "item": "har-gow", "qty": 1 }` puts a menu item on the bill straight from dialogue (dim sum tea and push carts). `requires: { "flags": { "askedChopsticks": true } }` shows a choice only when those flags match.
 - Placeholders available in lines: `{order}` (trilingual order summary) and `{total}` (¥ amount).
 
 **Adding a restaurant:** create `data/restaurants/<id>.json`, flip its catalog entry to `"status": "playable"`, then run `node tools/validate-content.mjs`.
 
-**Adding a badge rule:** add a function to `BADGE_RULES` in `js/engine/rewards.js` and a branch to `catalog.schema.json`.
+**Badge rules:** `mealsCompleted`, `restaurantsCompleted`, `perfectMeal`, `orderedChoice`, `mealFlag` (a flag set during that meal). **Adding a badge rule:** add a function to `BADGE_RULES` in `js/engine/rewards.js` and a branch to `catalog.schema.json`.

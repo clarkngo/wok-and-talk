@@ -142,7 +142,7 @@ function renderChoices(node, nodeId) {
 
 function pick(node, nodeId, choice, btn) {
   const result = resolveChoice(node, choice);
-  actions.recordAnswer(restaurant.id, nodeId, choice, result);
+  actions.recordAnswer(restaurant, nodeId, choice, result);
   if (getState().settings.autoSpeak) speak(choice.text.zh, getState().settings.speechRate);
 
   btn.classList.add(`is-${result.grade}`);

@@ -40,6 +40,7 @@
               { "type": "object", "required": ["type", "count"], "properties": { "type": { "const": "mealsCompleted" }, "count": { "type": "integer", "minimum": 1 } } },
               { "type": "object", "required": ["type", "count"], "properties": { "type": { "const": "restaurantsCompleted" }, "count": { "type": "integer", "minimum": 1 } } },
               { "type": "object", "required": ["type"], "properties": { "type": { "const": "perfectMeal" }, "restaurant": { "type": "string" } } },
+              { "type": "object", "required": ["type", "flag"], "properties": { "type": { "const": "mealFlag" }, "flag": { "type": "string" }, "value": { "type": ["string", "number", "boolean"] }, "restaurant": { "type": "string" } } },
               { "type": "object", "required": ["type", "group", "choice"], "properties": { "type": { "const": "orderedChoice" }, "group": { "type": "string" }, "choice": { "type": "string" } } }
             ]
           }

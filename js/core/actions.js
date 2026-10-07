@@ -50,7 +50,7 @@ export function setNode(nodeId) {
 }
 
 /** Score the first graded answer on each node, apply effects, and log the phrase. */
-export function recordAnswer(restaurantId, nodeId, choice, result) {
+export function recordAnswer(restaurant, nodeId, choice, result) {
   update((s) => {
     const m = s.activeMeal;
     if (!m) return;
@@ -59,9 +59,9 @@ export function recordAnswer(restaurantId, nodeId, choice, result) {
       m.maxScore += MAX_POINTS;
       m.score += result.points;
     }
-    applyEffects(m.flags, choice.effects);
+    applyEffects(m, choice.effects, restaurant.menu);
 
-    const key = `${restaurantId}/${nodeId}/${choice.id}`;
+    const key = `${restaurant.id}/${nodeId}/${choice.id}`;
     const entry = (s.phrasebook[key] ??= { seen: 0, correct: 0, lastSeenAt: null });
     entry.seen += 1;
     if (result.grade === 'best') entry.correct += 1;
@@ -97,7 +97,7 @@ export function completeMeal(restaurant, badgeDefs) {
     r.bestStars = Math.max(r.bestStars, rewards.stars);
 
     newBadges = evaluateBadges(badgeDefs, {
-      state: s, restaurantId: restaurant.id, pct: rewards.pct, order: meal.order,
+      state: s, restaurantId: restaurant.id, pct: rewards.pct, order: meal.order, flags: meal.flags,
     });
     for (const b of newBadges) s.progress.badges[b.id] = now();
 

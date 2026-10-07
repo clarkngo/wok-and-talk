@@ -95,13 +95,28 @@
         "effects": {
           "type": "array",
           "items": {
-            "type": "object",
-            "required": ["type", "flag"],
-            "properties": {
-              "type": { "const": "setFlag" },
-              "flag": { "type": "string" },
-              "value": { "type": ["string", "number", "boolean"], "default": true }
-            }
+            "oneOf": [
+              {
+                "type": "object",
+                "required": ["type", "flag"],
+                "properties": {
+                  "type": { "const": "setFlag" },
+                  "flag": { "type": "string" },
+                  "value": { "type": ["string", "number", "boolean"], "default": true }
+                }
+              },
+              {
+                "type": "object",
+                "required": ["type", "item"],
+                "description": "Add a menu item to the order straight from dialogue (tea, a cart dish). Unlisted option groups get their defaults.",
+                "properties": {
+                  "type": { "const": "addItem" },
+                  "item": { "type": "string", "description": "Menu item id." },
+                  "qty": { "type": "integer", "minimum": 1, "maximum": 20, "default": 1 },
+                  "choices": { "type": "object", "additionalProperties": { "type": "array", "items": { "type": "string" } } }
+                }
+              }
+            ]
           }
         },
         "requires": {
