@@ -31,12 +31,14 @@ const BADGE_RULES = {
   restaurantsCompleted: (c, ctx) =>
     Object.values(ctx.state.restaurants).filter((r) => r.completions > 0).length >= c.count,
   perfectMeal: (c, ctx) => ctx.pct >= 1 && (!c.restaurant || c.restaurant === ctx.restaurantId),
+  mealFlag: (c, ctx) => (!c.restaurant || c.restaurant === ctx.restaurantId)
+    && (ctx.flags?.[c.flag] ?? false) === (c.value ?? true),
   orderedChoice: (c, ctx) => ctx.order.some((line) => (line.choices[c.group] ?? []).includes(c.choice)),
 };
 
 /**
  * Which badges become newly earned after a meal?
- * ctx: { state (already updated for this meal), restaurantId, pct, order }
+ * ctx: { state (already updated for this meal), restaurantId, pct, order, flags }
  */
 export function evaluateBadges(badgeDefs, ctx) {
   return badgeDefs.filter((b) => {

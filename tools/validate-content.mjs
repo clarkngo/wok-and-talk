@@ -28,7 +28,7 @@ for (const entry of catalog.restaurants) {
   }
 }
 
-const KNOWN_CONDITIONS = ['mealsCompleted', 'restaurantsCompleted', 'perfectMeal', 'orderedChoice'];
+const KNOWN_CONDITIONS = ['mealsCompleted', 'restaurantsCompleted', 'perfectMeal', 'orderedChoice', 'mealFlag'];
 for (const b of catalog.badges) {
   if (!KNOWN_CONDITIONS.includes(b.condition?.type)) problems.push(`catalog badge ${b.id}: unknown condition "${b.condition?.type}"`);
   if (b.condition?.type === 'orderedChoice') {

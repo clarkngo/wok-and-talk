@@ -1,0 +1,467 @@
+{
+  "$schema": "../../schemas/restaurant.schema.json",
+  "schemaVersion": 1,
+  "id": "dim-sum",
+  "name": { "zh": "金龙茶楼", "zht": "金龍茶樓", "py": "Jīnlóng Chálóu", "en": "Golden Dragon Teahouse" },
+  "scene": { "emoji": "🥟", "props": ["🏮", "🫖", "🥢", "🏮"], "colors": ["#ffe3a3", "#d9902b"] },
+  "startNode": "greet",
+  "rewards": { "exp": 80, "cny": 50 },
+
+  "npcs": {
+    "host":   { "avatar": "🙋‍♀️", "name": { "zh": "领位员", "zht": "領位員", "py": "lǐngwèiyuán", "en": "Host" } },
+    "server": { "avatar": "🧑", "name": { "zh": "服务员", "zht": "服務員", "py": "fúwùyuán", "en": "Server" } },
+    "cart":   { "avatar": "👩‍🦳", "name": { "zh": "推车阿姨", "zht": "推車阿姨", "py": "tuīchē āyí", "en": "Cart Auntie" } }
+  },
+
+  "dialogue": {
+    "greet": {
+      "speaker": "host",
+      "line": { "zh": "早上好！欢迎光临！请问几位？有预订吗？", "zht": "早上好！歡迎光臨！請問幾位？有預訂嗎？", "py": "Zǎoshang hǎo! Huānyíng guānglín! Qǐngwèn jǐ wèi? Yǒu yùdìng ma?", "en": "Good morning, welcome! How many of you, and do you have a reservation?" },
+      "note": "You're here with a friend. Dim sum is traditionally a morning meal — 早茶 (zǎochá), \"morning tea\".",
+      "choices": [
+        {
+          "id": "two-no-booking",
+          "text": { "zh": "两位，没有预订。", "zht": "兩位，沒有預訂。", "py": "Liǎng wèi, méiyǒu yùdìng.", "en": "Two, no reservation." },
+          "grade": "best",
+          "feedback": "Both questions answered. Note 两 (liǎng), not 二 (èr), before a measure word like 位.",
+          "next": "wait"
+        },
+        {
+          "id": "two-only",
+          "text": { "zh": "两位。", "zht": "兩位。", "py": "Liǎng wèi.", "en": "Two." },
+          "grade": "ok",
+          "feedback": "Good use of 两位 — but she also asked 有预订吗 (\"do you have a reservation?\"). Answer both: 没有预订.",
+          "next": "wait"
+        },
+        {
+          "id": "want-har-gow",
+          "text": { "zh": "我要虾饺！", "zht": "我要蝦餃！", "py": "Wǒ yào xiājiǎo!", "en": "I want shrimp dumplings!" },
+          "grade": "wrong",
+          "feedback": "Hungry already! First she needs 几位 (how many people) and whether you have a 预订 (reservation)."
+        }
+      ]
+    },
+
+    "wait": {
+      "speaker": "host",
+      "line": { "zh": "现在要等十分钟左右，可以吗？", "zht": "現在要等十分鐘左右，可以嗎？", "py": "Xiànzài yào děng shí fēnzhōng zuǒyòu, kěyǐ ma?", "en": "There's about a ten-minute wait right now. Is that okay?" },
+      "note": "Busy teahouses often hand out a numbered ticket (号码牌, hàomǎ pái) while you wait. 左右 (zuǒyòu) after a number means \"about\".",
+      "choices": [
+        {
+          "id": "we-wait",
+          "text": { "zh": "可以，我们等一下。", "zht": "可以，我們等一下。", "py": "Kěyǐ, wǒmen děng yíxià.", "en": "Sure, we'll wait." },
+          "grade": "best",
+          "feedback": "Polite and easy. 等一下 (děng yíxià) = \"wait a bit\".",
+          "next": "seated"
+        },
+        {
+          "id": "no-problem",
+          "text": { "zh": "好的，没问题。", "zht": "好的，沒問題。", "py": "Hǎo de, méi wèntí.", "en": "Okay, no problem." },
+          "grade": "best",
+          "feedback": "没问题 (méi wèntí), \"no problem\", is one of the handiest phrases there is.",
+          "next": "seated"
+        },
+        {
+          "id": "too-slow",
+          "text": { "zh": "太慢了！我不等！", "zht": "太慢了！我不等！", "py": "Tài màn le! Wǒ bù děng!", "en": "Too slow! I'm not waiting!" },
+          "grade": "wrong",
+          "feedback": "That's rude — and you'd miss out on dim sum! Ten minutes is normal on a busy morning."
+        }
+      ]
+    },
+
+    "seated": {
+      "speaker": "narrator",
+      "line": { "zh": "十分钟后，你们坐下了。桌上有一张点心单。", "zht": "十分鐘後，你們坐下了。桌上有一張點心單。", "py": "Shí fēnzhōng hòu, nǐmen zuò xià le. Zhuō shang yǒu yì zhāng diǎnxīn dān.", "en": "Ten minutes later you're seated. There's a dim sum order sheet on the table." },
+      "note": "张 (zhāng) is the measure word for flat things like paper, tables, and tickets.",
+      "next": "tea"
+    },
+
+    "tea": {
+      "speaker": "server",
+      "line": { "zh": "你们好！喝什么茶？我们有普洱、铁观音和菊花茶。", "zht": "你們好！喝什麼茶？我們有普洱、鐵觀音和菊花茶。", "py": "Nǐmen hǎo! Hē shénme chá? Wǒmen yǒu pǔ'ěr, tiěguānyīn hé júhuā chá.", "en": "Hi! What tea would you like? We have pu'er, Tieguanyin, and chrysanthemum." },
+      "note": "Tea comes first — 饮茶 (yǐnchá) literally means \"drink tea\". Most teahouses add a per-person tea charge (茶位费, cháwèi fèi).",
+      "choices": [
+        {
+          "id": "tea-puer",
+          "text": { "zh": "来一壶普洱吧。", "zht": "來一壺普洱吧。", "py": "Lái yì hú pǔ'ěr ba.", "en": "A pot of pu'er, please." },
+          "grade": "best",
+          "feedback": "来 (lái), \"bring\", is the casual way to order. 壶 (hú) is the measure word for a pot.",
+          "effects": [{ "type": "addItem", "item": "tea-puer", "qty": 2 }],
+          "next": "tea-pour"
+        },
+        {
+          "id": "tea-tieguanyin",
+          "text": { "zh": "铁观音，谢谢。", "zht": "鐵觀音，謝謝。", "py": "Tiěguānyīn, xièxie.", "en": "Tieguanyin, thanks." },
+          "grade": "best",
+          "feedback": "A fragrant oolong named after Guanyin, the goddess of mercy — great with richer dishes.",
+          "effects": [{ "type": "addItem", "item": "tea-tieguanyin", "qty": 2 }],
+          "next": "tea-pour"
+        },
+        {
+          "id": "tea-chrysanthemum",
+          "text": { "zh": "菊花茶，谢谢。", "zht": "菊花茶，謝謝。", "py": "Júhuā chá, xièxie.", "en": "Chrysanthemum tea, thanks." },
+          "grade": "best",
+          "feedback": "Light and floral. It's considered \"cooling\" (清热) — a nice balance for fried dim sum.",
+          "effects": [{ "type": "addItem", "item": "tea-chrysanthemum", "qty": 2 }],
+          "next": "tea-pour"
+        },
+        {
+          "id": "no-tea",
+          "text": { "zh": "我不要茶，给我可乐。", "zht": "我不要茶，給我可樂。", "py": "Wǒ bú yào chá, gěi wǒ kělè.", "en": "No tea — give me a cola." },
+          "grade": "wrong",
+          "feedback": "At a teahouse, tea is the whole point — and the tea charge is usually added anyway. Pick a tea!"
+        }
+      ]
+    },
+
+    "tea-pour": {
+      "speaker": "narrator",
+      "line": { "zh": "茶来了。你先给朋友倒茶。朋友用两根手指轻轻敲了敲桌子。", "zht": "茶來了。你先給朋友倒茶。朋友用兩根手指輕輕敲了敲桌子。", "py": "Chá lái le. Nǐ xiān gěi péngyou dào chá. Péngyou yòng liǎng gēn shǒuzhǐ qīngqīng qiāo le qiāo zhuōzi.", "en": "The tea arrives. You pour for your friend first. Your friend lightly taps the table with two fingers." },
+      "note": "Pour for others before yourself — it's basic tea etiquette.",
+      "next": "finger-tap"
+    },
+
+    "finger-tap": {
+      "speaker": "narrator",
+      "line": { "zh": "这是什么意思？", "zht": "這是什麼意思？", "py": "Zhè shì shénme yìsi?", "en": "What does that mean?" },
+      "choices": [
+        {
+          "id": "means-thanks",
+          "text": { "zh": "意思是“谢谢”。", "zht": "意思是「謝謝」。", "py": "Yìsi shì “xièxie”.", "en": "It means “thank you”." },
+          "grade": "best",
+          "feedback": "Right! Tapping two fingers (叩指礼, kòuzhǐ lǐ) silently thanks whoever pours your tea.",
+          "note": "Legend says an emperor travelling in disguise poured tea for his servants; unable to kowtow in public, they tapped bent fingers on the table instead.",
+          "effects": [{ "type": "setFlag", "flag": "knowsFingerTap" }],
+          "next": "cart"
+        },
+        {
+          "id": "means-more-tea",
+          "text": { "zh": "意思是“还要茶”。", "zht": "意思是「還要茶」。", "py": "Yìsi shì “hái yào chá”.", "en": "It means “more tea”." },
+          "grade": "wrong",
+          "feedback": "Close — it's tea-related, but it's a silent “thank you” for pouring. (There's a different signal for more water. You'll see!)"
+        },
+        {
+          "id": "means-hurry",
+          "text": { "zh": "意思是“快点儿”。", "zht": "意思是「快點兒」。", "py": "Yìsi shì “kuài diǎnr”.", "en": "It means “hurry up”." },
+          "grade": "wrong",
+          "feedback": "Not at all — it's a polite gesture, not an impatient one."
+        }
+      ]
+    },
+
+    "cart": {
+      "speaker": "cart",
+      "line": { "zh": "虾饺、烧卖，刚出笼的！要不要？", "zht": "蝦餃、燒賣，剛出籠的！要不要？", "py": "Xiājiǎo, shāomài, gāng chū lóng de! Yào bu yào?", "en": "Shrimp dumplings, siu mai — fresh out of the steamer! Want some?" },
+      "note": "Push carts (点心车, diǎnxīn chē) roam the room. Wave the auntie over and point. 要不要 (yào bu yào) is a yes/no question: \"want or not?\"",
+      "choices": [
+        {
+          "id": "one-basket",
+          "text": { "zh": "要一笼虾饺，谢谢！", "zht": "要一籠蝦餃，謝謝！", "py": "Yào yì lóng xiājiǎo, xièxie!", "en": "One basket of shrimp dumplings, please!" },
+          "grade": "best",
+          "feedback": "笼 (lóng), \"steamer basket\", is the measure word for dim sum.",
+          "effects": [{ "type": "addItem", "item": "har-gow" }],
+          "next": "stamp"
+        },
+        {
+          "id": "both",
+          "text": { "zh": "两样都要！", "zht": "兩樣都要！", "py": "Liǎng yàng dōu yào!", "en": "We'll take both!" },
+          "grade": "best",
+          "feedback": "样 (yàng) means \"kind\" — 两样都要 is \"we want both kinds\".",
+          "effects": [{ "type": "addItem", "item": "har-gow" }, { "type": "addItem", "item": "siu-mai" }],
+          "next": "stamp"
+        },
+        {
+          "id": "one-dumpling",
+          "text": { "zh": "给我一个虾饺。", "zht": "給我一個蝦餃。", "py": "Gěi wǒ yí ge xiājiǎo.", "en": "Give me one shrimp dumpling." },
+          "grade": "ok",
+          "feedback": "She'll understand — but dim sum comes by the basket. Say 一笼 (yì lóng), not 一个. You get a whole basket!",
+          "effects": [{ "type": "addItem", "item": "har-gow" }],
+          "next": "stamp"
+        },
+        {
+          "id": "decline-cart",
+          "text": { "zh": "不用了，谢谢。", "zht": "不用了，謝謝。", "py": "Bú yòng le, xièxie.", "en": "No thanks." },
+          "grade": "neutral",
+          "feedback": "不用了 (bú yòng le) is the polite way to decline. You can still order from the sheet.",
+          "next": "order-sheet"
+        }
+      ]
+    },
+
+    "stamp": {
+      "speaker": "cart",
+      "line": { "zh": "好，我给你们盖个章。", "zht": "好，我給你們蓋個章。", "py": "Hǎo, wǒ gěi nǐmen gài ge zhāng.", "en": "Okay, I'll stamp your card." },
+      "note": "Cart dishes are recorded with a stamp (盖章, gài zhāng) on the card at your table — the bill is added up from it at the end.",
+      "next": "order-sheet"
+    },
+
+    "order-sheet": {
+      "speaker": "server",
+      "line": { "zh": "还想加点什么？可以在点心单上打勾。", "zht": "還想加點什麼？可以在點心單上打勾。", "py": "Hái xiǎng jiā diǎn shénme? Kěyǐ zài diǎnxīn dān shang dǎ gōu.", "en": "Anything else? You can tick what you want on the order sheet." },
+      "note": "打勾 (dǎ gōu) means \"to make a check mark\".",
+      "action": "openMenu",
+      "next": "confirm"
+    },
+
+    "confirm": {
+      "speaker": "server",
+      "line": { "zh": "好的，你们点了{order}。对吗？", "zht": "好的，你們點了{order}。對嗎？", "py": "Hǎo de, nǐmen diǎn le {order}. Duì ma?", "en": "Okay, you've got: {order}. Is that right?" },
+      "choices": [
+        {
+          "id": "confirm-yes",
+          "text": { "zh": "对，谢谢。", "zht": "對，謝謝。", "py": "Duì, xièxie.", "en": "Yes, thank you." },
+          "grade": "best",
+          "feedback": "Order confirmed. Time to eat!",
+          "next": "refill"
+        },
+        {
+          "id": "confirm-change",
+          "text": { "zh": "我想再改一下。", "zht": "我想再改一下。", "py": "Wǒ xiǎng zài gǎi yíxià.", "en": "I'd like to change something." },
+          "grade": "neutral",
+          "feedback": "Sure — here's the sheet again.",
+          "next": "order-sheet"
+        }
+      ]
+    },
+
+    "refill": {
+      "speaker": "narrator",
+      "line": { "zh": "吃了一会儿，茶壶空了。怎么加水？", "zht": "吃了一會兒，茶壺空了。怎麼加水？", "py": "Chī le yíhuìr, cháhú kōng le. Zěnme jiā shuǐ?", "en": "After a while, the teapot is empty. How do you get more hot water?" },
+      "choices": [
+        {
+          "id": "lid-open",
+          "text": { "zh": "把壶盖打开，放在一边。", "zht": "把壺蓋打開，放在一邊。", "py": "Bǎ húgài dǎkāi, fàng zài yì biān.", "en": "Lift the lid and set it to one side." },
+          "grade": "best",
+          "feedback": "The classic silent signal — staff will top up your pot without a word.",
+          "next": "refill-done"
+        },
+        {
+          "id": "ask-water",
+          "text": { "zh": "服务员，麻烦加点水！", "zht": "服務員，麻煩加點水！", "py": "Fúwùyuán, máfan jiā diǎn shuǐ!", "en": "Excuse me, could we have more water, please?" },
+          "grade": "best",
+          "feedback": "Also perfect. 麻烦 (máfan), \"sorry to trouble you\", makes any request polite.",
+          "next": "refill-done"
+        },
+        {
+          "id": "flip-pot",
+          "text": { "zh": "把茶壶倒过来。", "zht": "把茶壺倒過來。", "py": "Bǎ cháhú dào guòlái.", "en": "Turn the teapot upside down." },
+          "grade": "wrong",
+          "feedback": "Please don't! Just leave the lid open, or ask for 加水 (jiā shuǐ)."
+        }
+      ]
+    },
+
+    "refill-done": {
+      "speaker": "server",
+      "line": { "zh": "来了，给你们加水。", "zht": "來了，給你們加水。", "py": "Lái le, gěi nǐmen jiā shuǐ.", "en": "Coming — here's more hot water." },
+      "next": "treat"
+    },
+
+    "treat": {
+      "speaker": "narrator",
+      "line": { "zh": "吃饱了。你的朋友说：“今天我请客！”", "zht": "吃飽了。你的朋友說：「今天我請客！」", "py": "Chī bǎo le. Nǐ de péngyou shuō: “Jīntiān wǒ qǐngkè!”", "en": "You're full. Your friend says: “It's my treat today!”" },
+      "choices": [
+        {
+          "id": "my-turn",
+          "text": { "zh": "不行不行，这次我来！", "zht": "不行不行，這次我來！", "py": "Bù xíng bù xíng, zhè cì wǒ lái!", "en": "No, no — this time it's on me!" },
+          "grade": "best",
+          "feedback": "Politely \"fighting\" over the bill (抢着买单) is classic Chinese dining etiquette. You insisted, so you pay.",
+          "note": "Next time your friend will insist on treating you — that's how it evens out.",
+          "next": "call-bill"
+        },
+        {
+          "id": "split",
+          "text": { "zh": "我们AA吧。", "zht": "我們AA吧。", "py": "Wǒmen AA ba.", "en": "Let's split it." },
+          "grade": "best",
+          "feedback": "AA制 (AA zhì), going Dutch, is common among young friends and coworkers. You pay now; your friend sends their half by phone.",
+          "next": "call-bill"
+        },
+        {
+          "id": "accept-treat",
+          "text": { "zh": "好啊，谢谢你！", "zht": "好啊，謝謝你！", "py": "Hǎo a, xièxie nǐ!", "en": "Great, thanks!" },
+          "grade": "ok",
+          "feedback": "Fine between close friends, but it's polite to offer at least once. (Your friend then \"forgets\" their wallet — you're paying!)",
+          "next": "call-bill"
+        }
+      ]
+    },
+
+    "call-bill": {
+      "speaker": "narrator",
+      "line": { "zh": "你想结账。怎么叫服务员？", "zht": "你想結賬。怎麼叫服務員？", "py": "Nǐ xiǎng jiézhàng. Zěnme jiào fúwùyuán?", "en": "You want to pay. How do you call the server?" },
+      "choices": [
+        {
+          "id": "maidan-canto",
+          "text": { "zh": "服务员，埋单！", "zht": "服務員，埋單！", "py": "Fúwùyuán, máidān!", "en": "Excuse me, the bill!" },
+          "grade": "best",
+          "feedback": "埋单 (máidān) is the Cantonese-style way to write 买单 — perfect for a Cantonese teahouse.",
+          "next": "pay"
+        },
+        {
+          "id": "jiezhang",
+          "text": { "zh": "服务员，结账！", "zht": "服務員，結賬！", "py": "Fúwùyuán, jiézhàng!", "en": "Excuse me, we'd like to pay!" },
+          "grade": "best",
+          "feedback": "结账 (jiézhàng) works everywhere.",
+          "next": "pay"
+        },
+        {
+          "id": "just-go",
+          "text": { "zh": "我们走吧。", "zht": "我們走吧。", "py": "Wǒmen zǒu ba.", "en": "Let's go." },
+          "grade": "wrong",
+          "feedback": "Not before paying! Call the server over first."
+        }
+      ]
+    },
+
+    "pay": {
+      "speaker": "server",
+      "line": { "zh": "我看一下……一共{total}块，包括茶位费。", "zht": "我看一下……一共{total}塊，包括茶位費。", "py": "Wǒ kàn yíxià… yígòng {total} kuài, bāokuò cháwèi fèi.", "en": "Let me see… ¥{total} in total, including the tea charge." },
+      "choices": [
+        {
+          "id": "pay-qr",
+          "text": { "zh": "扫码吧。", "zht": "掃碼吧。", "py": "Sǎo mǎ ba.", "en": "QR code, please." },
+          "grade": "best",
+          "feedback": "Scan and done.",
+          "effects": [{ "type": "setFlag", "flag": "payment", "value": "qr" }],
+          "next": "goodbye"
+        },
+        {
+          "id": "pay-cash",
+          "text": { "zh": "现金吧。", "zht": "現金吧。", "py": "Xiànjīn ba.", "en": "Cash, please." },
+          "grade": "best",
+          "feedback": "Cash is still accepted at most teahouses.",
+          "effects": [{ "type": "setFlag", "flag": "payment", "value": "cash" }],
+          "next": "goodbye"
+        },
+        {
+          "id": "what-tea-fee",
+          "text": { "zh": "茶位费是什么？", "zht": "茶位費是什麼？", "py": "Cháwèi fèi shì shénme?", "en": "What's the tea charge?" },
+          "grade": "neutral",
+          "feedback": "Good question to ask!",
+          "next": "tea-fee"
+        }
+      ]
+    },
+
+    "tea-fee": {
+      "speaker": "server",
+      "line": { "zh": "茶位费就是每个人的茶钱。", "zht": "茶位費就是每個人的茶錢。", "py": "Cháwèi fèi jiù shì měi ge rén de chá qián.", "en": "The tea charge is just each person's tea money." },
+      "note": "That's why your tea shows up on the bill ×2 — one for each of you.",
+      "next": "pay"
+    },
+
+    "goodbye": {
+      "speaker": "server",
+      "line": { "zh": "谢谢，慢走！欢迎再来饮茶！", "zht": "謝謝，慢走！歡迎再來飲茶！", "py": "Xièxie, màn zǒu! Huānyíng zài lái yǐnchá!", "en": "Thank you, take care! Come back for dim sum again!" },
+      "action": "checkout"
+    }
+  },
+
+  "menu": {
+    "optionGroups": {
+      "sauce": {
+        "type": "multi",
+        "label": { "zh": "酱料", "zht": "醬料", "py": "jiàngliào", "en": "Sauces" },
+        "choices": [
+          { "id": "chili-oil", "text": { "zh": "辣椒油", "zht": "辣椒油", "py": "làjiāo yóu", "en": "chili oil" } },
+          { "id": "soy", "text": { "zh": "酱油", "zht": "醬油", "py": "jiàngyóu", "en": "soy sauce" } },
+          { "id": "mustard", "text": { "zh": "芥末", "zht": "芥末", "py": "jièmo", "en": "hot mustard" } }
+        ]
+      },
+      "bunStyle": {
+        "type": "single",
+        "label": { "zh": "做法", "zht": "做法", "py": "zuòfǎ", "en": "Style" },
+        "note": "Steamed buns are fluffy and white; baked ones have a sweet, golden glaze.",
+        "choices": [
+          { "id": "steamed", "text": { "zh": "蒸的", "zht": "蒸的", "py": "zhēng de", "en": "steamed" }, "default": true },
+          { "id": "baked", "text": { "zh": "烤的", "zht": "烤的", "py": "kǎo de", "en": "baked" }, "price": 2 }
+        ]
+      },
+      "scallion": {
+        "type": "single",
+        "label": { "zh": "葱花", "zht": "蔥花", "py": "cōnghuā", "en": "Scallions" },
+        "choices": [
+          { "id": "yes", "text": { "zh": "要葱花", "zht": "要蔥花", "py": "yào cōnghuā", "en": "with scallions" }, "default": true, "silent": true },
+          { "id": "no", "text": { "zh": "不要葱花", "zht": "不要蔥花", "py": "bú yào cōnghuā", "en": "no scallions" } }
+        ]
+      }
+    },
+
+    "categories": [
+      {
+        "id": "tea",
+        "name": { "zh": "茶位", "zht": "茶位", "py": "cháwèi", "en": "Tea (per person)" },
+        "items": [
+          { "id": "tea-puer", "emoji": "🫖", "name": { "zh": "普洱茶", "zht": "普洱茶", "py": "pǔ'ěr chá", "en": "pu'er tea" }, "price": 6, "note": "Earthy and dark — the most popular dim sum tea. Charged per person." },
+          { "id": "tea-tieguanyin", "emoji": "🍵", "name": { "zh": "铁观音", "zht": "鐵觀音", "py": "tiěguānyīn", "en": "Tieguanyin oolong" }, "price": 8, "note": "Charged per person." },
+          { "id": "tea-chrysanthemum", "emoji": "🌼", "name": { "zh": "菊花茶", "zht": "菊花茶", "py": "júhuā chá", "en": "chrysanthemum tea" }, "price": 6, "note": "Charged per person." }
+        ]
+      },
+      {
+        "id": "steamed",
+        "name": { "zh": "蒸点", "zht": "蒸點", "py": "zhēngdiǎn", "en": "Steamed" },
+        "items": [
+          {
+            "id": "har-gow", "emoji": "🦐",
+            "name": { "zh": "虾饺", "zht": "蝦餃", "py": "xiājiǎo", "en": "shrimp dumplings (har gow)" },
+            "price": 28, "tags": ["signature"], "options": ["sauce"],
+            "note": "Chefs are judged by their 虾饺: thin, translucent skin and neat pleats."
+          },
+          {
+            "id": "siu-mai", "emoji": "🥟",
+            "name": { "zh": "烧卖", "zht": "燒賣", "py": "shāomài", "en": "pork & shrimp dumplings (siu mai)" },
+            "price": 26, "options": ["sauce"]
+          },
+          {
+            "id": "char-siu-bao", "emoji": "🍖",
+            "name": { "zh": "叉烧包", "zht": "叉燒包", "py": "chāshāo bāo", "en": "BBQ pork buns" },
+            "price": 22, "options": ["bunStyle"]
+          },
+          {
+            "id": "chicken-feet", "emoji": "🐔",
+            "name": { "zh": "凤爪", "zht": "鳳爪", "py": "fèngzhǎo", "en": "braised chicken feet" },
+            "price": 20, "tags": ["spicy"],
+            "note": "Literally \"phoenix claws\" — a dim sum classic, braised in black bean sauce."
+          },
+          {
+            "id": "rice-roll", "emoji": "🍤",
+            "name": { "zh": "虾肠粉", "zht": "蝦腸粉", "py": "xiā chángfěn", "en": "shrimp rice noodle rolls" },
+            "price": 26, "options": ["sauce"]
+          }
+        ]
+      },
+      {
+        "id": "savory",
+        "name": { "zh": "粥和煎炸", "zht": "粥和煎炸", "py": "zhōu hé jiānzhá", "en": "Congee & fried" },
+        "items": [
+          {
+            "id": "congee", "emoji": "🥣",
+            "name": { "zh": "皮蛋瘦肉粥", "zht": "皮蛋瘦肉粥", "py": "pídàn shòuròu zhōu", "en": "century egg & pork congee" },
+            "price": 18, "options": ["scallion"],
+            "note": "皮蛋 (century egg) is preserved for weeks — it's rich and savory, and much milder than it looks."
+          },
+          {
+            "id": "spring-rolls", "emoji": "🌯",
+            "name": { "zh": "春卷", "zht": "春捲", "py": "chūnjuǎn", "en": "spring rolls" },
+            "price": 16, "options": ["sauce"]
+          },
+          {
+            "id": "turnip-cake", "emoji": "🥡",
+            "name": { "zh": "萝卜糕", "zht": "蘿蔔糕", "py": "luóbo gāo", "en": "pan-fried turnip cake" },
+            "price": 18, "options": ["sauce"]
+          }
+        ]
+      },
+      {
+        "id": "dessert",
+        "name": { "zh": "甜点", "zht": "甜點", "py": "tiándiǎn", "en": "Desserts" },
+        "items": [
+          { "id": "egg-tarts", "emoji": "🥧", "name": { "zh": "蛋挞", "zht": "蛋撻", "py": "dàntà", "en": "egg tarts" }, "price": 15, "tags": ["signature"] },
+          { "id": "mango-pudding", "emoji": "🥭", "name": { "zh": "芒果布丁", "zht": "芒果布丁", "py": "mángguǒ bùdīng", "en": "mango pudding" }, "price": 14 },
+          { "id": "sesame-balls", "emoji": "🍡", "name": { "zh": "芝麻球", "zht": "芝麻球", "py": "zhīma qiú", "en": "sesame balls" }, "price": 14 }
+        ]
+      }
+    ]
+  }
+}

@@ -24,6 +24,7 @@ export function validateRestaurant(r) {
 
   checkText('name', r.name);
   const nodes = r.dialogue;
+  const menuItemIds = new Set((r.menu.categories ?? []).flatMap((cat) => cat.items.map((i) => i.id)));
   const refOk = (id) => typeof id === 'string' && id in nodes;
   if (!refOk(r.startNode)) err('startNode', `unknown node "${r.startNode}"`);
 
@@ -53,6 +54,13 @@ export function validateRestaurant(r) {
       if (c.grade && !GRADES.includes(c.grade)) err(cp, `unknown grade "${c.grade}"`);
       if (c.next && !refOk(c.next)) err(`${cp}.next`, `unknown node "${c.next}"`);
       if (!c.next && !n.next && c.grade !== 'wrong') err(cp, 'no "next" (only wrong answers may retry)');
+      (c.effects ?? []).forEach((fx, j) => {
+        const fp = `${cp}.effects[${j}]`;
+        if (fx.type === 'setFlag') { if (!fx.flag) err(fp, 'setFlag needs "flag"'); }
+        else if (fx.type === 'addItem') { if (!menuItemIds.has(fx.item)) err(fp, `unknown menu item "${fx.item}"`); }
+        else err(fp, `unknown effect type "${fx.type}"`);
+        if (fx.type === 'addItem' && c.grade === 'wrong' && !c.next) err(fp, 'addItem on a retry choice would add the item every attempt');
+      });
     });
     if (n.choices && !n.choices.some((c) => c.grade !== 'wrong')) err(p, 'every choice is wrong — player is stuck');
   }
