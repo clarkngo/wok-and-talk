@@ -87,7 +87,7 @@
           "text": { "zh": "来一壶普洱吧。", "zht": "來一壺普洱吧。", "py": "Lái yì hú pǔ'ěr ba.", "en": "A pot of pu'er, please." },
           "grade": "best",
           "feedback": "来 (lái), \"bring\", is the casual way to order. 壶 (hú) is the measure word for a pot.",
-          "effects": [{ "type": "addItem", "item": "tea-puer", "qty": 2 }],
+          "effects": [{ "type": "addItem", "item": "tea-puer", "qty": 2, "locked": true }],
           "next": "tea-pour"
         },
         {
@@ -95,7 +95,7 @@
           "text": { "zh": "铁观音，谢谢。", "zht": "鐵觀音，謝謝。", "py": "Tiěguānyīn, xièxie.", "en": "Tieguanyin, thanks." },
           "grade": "best",
           "feedback": "A fragrant oolong named after Guanyin, the goddess of mercy — great with richer dishes.",
-          "effects": [{ "type": "addItem", "item": "tea-tieguanyin", "qty": 2 }],
+          "effects": [{ "type": "addItem", "item": "tea-tieguanyin", "qty": 2, "locked": true }],
           "next": "tea-pour"
         },
         {
@@ -103,7 +103,7 @@
           "text": { "zh": "菊花茶，谢谢。", "zht": "菊花茶，謝謝。", "py": "Júhuā chá, xièxie.", "en": "Chrysanthemum tea, thanks." },
           "grade": "best",
           "feedback": "Light and floral. It's considered \"cooling\" (清热) — a nice balance for fried dim sum.",
-          "effects": [{ "type": "addItem", "item": "tea-chrysanthemum", "qty": 2 }],
+          "effects": [{ "type": "addItem", "item": "tea-chrysanthemum", "qty": 2, "locked": true }],
           "next": "tea-pour"
         },
         {
@@ -160,7 +160,7 @@
           "text": { "zh": "要一笼虾饺，谢谢！", "zht": "要一籠蝦餃，謝謝！", "py": "Yào yì lóng xiājiǎo, xièxie!", "en": "One basket of shrimp dumplings, please!" },
           "grade": "best",
           "feedback": "笼 (lóng), \"steamer basket\", is the measure word for dim sum.",
-          "effects": [{ "type": "addItem", "item": "har-gow" }],
+          "effects": [{ "type": "addItem", "item": "har-gow", "locked": true }],
           "next": "stamp"
         },
         {
@@ -168,7 +168,7 @@
           "text": { "zh": "两样都要！", "zht": "兩樣都要！", "py": "Liǎng yàng dōu yào!", "en": "We'll take both!" },
           "grade": "best",
           "feedback": "样 (yàng) means \"kind\" — 两样都要 is \"we want both kinds\".",
-          "effects": [{ "type": "addItem", "item": "har-gow" }, { "type": "addItem", "item": "siu-mai" }],
+          "effects": [{ "type": "addItem", "item": "har-gow", "locked": true }, { "type": "addItem", "item": "siu-mai", "locked": true }],
           "next": "stamp"
         },
         {
@@ -176,7 +176,7 @@
           "text": { "zh": "给我一个虾饺。", "zht": "給我一個蝦餃。", "py": "Gěi wǒ yí ge xiājiǎo.", "en": "Give me one shrimp dumpling." },
           "grade": "ok",
           "feedback": "She'll understand — but dim sum comes by the basket. Say 一笼 (yì lóng), not 一个. You get a whole basket!",
-          "effects": [{ "type": "addItem", "item": "har-gow" }],
+          "effects": [{ "type": "addItem", "item": "har-gow", "locked": true }],
           "next": "stamp"
         },
         {
@@ -393,9 +393,9 @@
         "id": "tea",
         "name": { "zh": "茶位", "zht": "茶位", "py": "cháwèi", "en": "Tea (per person)" },
         "items": [
-          { "id": "tea-puer", "emoji": "🫖", "name": { "zh": "普洱茶", "zht": "普洱茶", "py": "pǔ'ěr chá", "en": "pu'er tea" }, "price": 6, "note": "Earthy and dark — the most popular dim sum tea. Charged per person." },
-          { "id": "tea-tieguanyin", "emoji": "🍵", "name": { "zh": "铁观音", "zht": "鐵觀音", "py": "tiěguānyīn", "en": "Tieguanyin oolong" }, "price": 8, "note": "Charged per person." },
-          { "id": "tea-chrysanthemum", "emoji": "🌼", "name": { "zh": "菊花茶", "zht": "菊花茶", "py": "júhuā chá", "en": "chrysanthemum tea" }, "price": 6, "note": "Charged per person." }
+          { "id": "tea-puer", "emoji": "🫖", "name": { "zh": "普洱茶", "zht": "普洱茶", "py": "pǔ'ěr chá", "en": "pu'er tea" }, "price": 6, "hidden": true, "note": "Earthy and dark — the most popular dim sum tea. Charged per person." },
+          { "id": "tea-tieguanyin", "emoji": "🍵", "name": { "zh": "铁观音", "zht": "鐵觀音", "py": "tiěguānyīn", "en": "Tieguanyin oolong" }, "price": 8, "hidden": true, "note": "Charged per person." },
+          { "id": "tea-chrysanthemum", "emoji": "🌼", "name": { "zh": "菊花茶", "zht": "菊花茶", "py": "júhuā chá", "en": "chrysanthemum tea" }, "price": 6, "hidden": true, "note": "Charged per person." }
         ]
       },
       {

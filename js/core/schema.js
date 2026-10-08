@@ -125,6 +125,7 @@ function sanitizeMeal(m) {
       itemId: line.itemId,
       qty: clamp(int(line.qty, 1), 1, 20),
       choices: mapObj(line.choices, (ids) => Array.isArray(ids) ? ids.filter((x) => typeof x === 'string') : null),
+      ...(line.locked === true && { locked: true }),
     }];
   }) : [];
   return {

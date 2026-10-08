@@ -41,7 +41,8 @@ export function resolveChoice(node, choice) {
 /**
  * Apply a choice's effects to the in-progress meal (mutates and returns it).
  *   setFlag: { flag, value? }             → meal.flags[flag] = value ?? true
- *   addItem: { item, qty?, choices? }     → adds a line to meal.order (e.g. tea, a cart dish)
+ *   addItem: { item, qty?, choices?, locked? } → adds a line to meal.order (e.g. tea, a cart dish);
+ *                                        locked lines can't be removed on the order sheet
  */
 export function applyEffects(meal, effects = [], menu) {
   for (const fx of effects) {
@@ -49,7 +50,7 @@ export function applyEffects(meal, effects = [], menu) {
       meal.flags[fx.flag] = fx.value ?? true;
     } else if (fx.type === 'addItem') {
       const choices = { ...defaultChoices(menu, getItem(menu, fx.item)), ...fx.choices };
-      meal.order = addLine(meal.order, { itemId: fx.item, qty: fx.qty ?? 1, choices });
+      meal.order = addLine(meal.order, { itemId: fx.item, qty: fx.qty ?? 1, choices, ...(fx.locked && { locked: true }) });
     }
   }
   return meal;

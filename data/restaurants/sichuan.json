@@ -1,0 +1,529 @@
+{
+  "$schema": "../../schemas/restaurant.schema.json",
+  "schemaVersion": 1,
+  "id": "sichuan",
+  "name": { "zh": "蜀香川菜馆", "zht": "蜀香川菜館", "py": "Shǔxiāng Chuāncàiguǎn", "en": "Shu Fragrance Sichuan Kitchen" },
+  "scene": { "emoji": "🌶️", "props": ["🏮", "🥢", "🍵", "🏮"], "colors": ["#f7a6a6", "#9e0c24"] },
+  "startNode": "greet",
+  "rewards": { "exp": 120, "cny": 90 },
+
+  "npcs": {
+    "host":     { "avatar": "💁", "name": { "zh": "领位员", "zht": "領位員", "py": "lǐngwèiyuán", "en": "Host" } },
+    "server":   { "avatar": "🧑‍🍳", "name": { "zh": "服务员", "zht": "服務員", "py": "fúwùyuán", "en": "Server" } },
+    "coworker": { "avatar": "🧑‍💻", "name": { "zh": "同事小王", "zht": "同事小王", "py": "tóngshì Xiǎo Wáng", "en": "Xiao Wang (coworker)" } },
+    "manager":  { "avatar": "🧑‍💼", "name": { "zh": "张经理", "zht": "張經理", "py": "Zhāng jīnglǐ", "en": "Manager Zhang" } }
+  },
+
+  "dialogue": {
+    "greet": {
+      "speaker": "host",
+      "line": { "zh": "晚上好！几位？有订位吗？", "zht": "晚上好！幾位？有訂位嗎？", "py": "Wǎnshang hǎo! Jǐ wèi? Yǒu dìngwèi ma?", "en": "Good evening! How many? Do you have a booking?" },
+      "note": "A team dinner: you, two coworkers, and your manager. In this story your surname is 李 (Lǐ), and you made the booking for 7 o'clock.",
+      "choices": [
+        {
+          "id": "four-booked",
+          "text": { "zh": "四位，我订了七点的位子。", "zht": "四位，我訂了七點的位子。", "py": "Sì wèi, wǒ dìng le qī diǎn de wèizi.", "en": "Four — I booked a table for seven o'clock." },
+          "grade": "best",
+          "feedback": "Both questions answered. 订位子 (dìng wèizi) = book a table.",
+          "next": "surname"
+        },
+        {
+          "id": "four-people",
+          "text": { "zh": "四个人。", "zht": "四個人。", "py": "Sì ge rén.", "en": "Four people." },
+          "grade": "ok",
+          "feedback": "Fine — but mention your booking (订位) so she can find it.",
+          "next": "surname"
+        },
+        {
+          "id": "we-have-four",
+          "text": { "zh": "我们有四。", "zht": "我們有四。", "py": "Wǒmen yǒu sì.", "en": "We have four." },
+          "grade": "wrong",
+          "feedback": "Numbers need a measure word in Chinese: 四位 (sì wèi) or 四个人."
+        }
+      ]
+    },
+
+    "surname": {
+      "speaker": "host",
+      "line": { "zh": "好的，请问您贵姓？", "zht": "好的，請問您貴姓？", "py": "Hǎo de, qǐngwèn nín guìxìng?", "en": "Certainly — may I ask your surname?" },
+      "note": "贵姓 (guìxìng), \"honorable surname\", is the polite way to ask someone's family name.",
+      "choices": [
+        {
+          "id": "muzi-li",
+          "text": { "zh": "我姓李，木子李。", "zht": "我姓李，木子李。", "py": "Wǒ xìng Lǐ, mù zǐ Lǐ.", "en": "My surname is Li — the 木子 Li." },
+          "grade": "best",
+          "feedback": "Very native! People clarify a character by its parts: 李 = 木 + 子. Many surnames sound alike, so this avoids mix-ups.",
+          "next": "room"
+        },
+        {
+          "id": "just-li",
+          "text": { "zh": "李。", "zht": "李。", "py": "Lǐ.", "en": "Li." },
+          "grade": "ok",
+          "feedback": "Understood — but a full sentence, 我姓李, sounds friendlier.",
+          "next": "room"
+        },
+        {
+          "id": "my-guixing",
+          "text": { "zh": "我贵姓李。", "zht": "我貴姓李。", "py": "Wǒ guìxìng Lǐ.", "en": "My honorable surname is Li." },
+          "grade": "wrong",
+          "feedback": "Never use 贵 (honorable) about yourself — it's only for others. Just say 我姓李."
+        }
+      ]
+    },
+
+    "room": {
+      "speaker": "host",
+      "line": { "zh": "找到了。四位这边请，三号包间。", "zht": "找到了。四位這邊請，三號包間。", "py": "Zhǎodào le. Sì wèi zhè biān qǐng, sān hào bāojiān.", "en": "Found it. This way, please — private room 3." },
+      "note": "包间 (bāojiān), private dining rooms, are popular for work dinners and family banquets.",
+      "next": "seating"
+    },
+
+    "seating": {
+      "speaker": "coworker",
+      "line": { "zh": "小李，你坐里面那个对着门的位子吧！", "zht": "小李，你坐裡面那個對著門的位子吧！", "py": "Xiǎo Lǐ, nǐ zuò lǐmiàn nàge duì zhe mén de wèizi ba!", "en": "Xiao Li, take the seat at the back, facing the door!" },
+      "note": "小 + surname (小李) is a friendly way to address a younger colleague.",
+      "choices": [
+        {
+          "id": "for-manager",
+          "text": { "zh": "不不，那个位子应该请张经理坐。", "zht": "不不，那個位子應該請張經理坐。", "py": "Bù bù, nàge wèizi yīnggāi qǐng Zhāng jīnglǐ zuò.", "en": "No, no — that seat should go to Manager Zhang." },
+          "grade": "best",
+          "feedback": "Exactly. The seat facing the door (主位, zhǔwèi) is the seat of honor for the host or the most senior person.",
+          "effects": [{ "type": "setFlag", "flag": "seatEtiquette" }],
+          "next": "how-many"
+        },
+        {
+          "id": "by-door",
+          "text": { "zh": "我坐门口吧，方便上菜。", "zht": "我坐門口吧，方便上菜。", "py": "Wǒ zuò ménkǒu ba, fāngbiàn shàng cài.", "en": "I'll sit by the door — it's easier when the dishes come." },
+          "grade": "best",
+          "feedback": "Very humble! The seat nearest the door, where dishes are served, is the most junior seat. Your manager will be impressed.",
+          "effects": [{ "type": "setFlag", "flag": "seatEtiquette" }],
+          "next": "how-many"
+        },
+        {
+          "id": "take-it",
+          "text": { "zh": "好的，谢谢！（坐下）", "zht": "好的，謝謝！（坐下）", "py": "Hǎo de, xièxie! (Zuò xià)", "en": "Thanks! (Sit down)" },
+          "grade": "ok",
+          "feedback": "Your coworker was testing you! The seat facing the door is the seat of honor — leave it for Manager Zhang.",
+          "next": "how-many"
+        }
+      ]
+    },
+
+    "how-many": {
+      "speaker": "coworker",
+      "line": { "zh": "你来点菜吧！点几个菜好？", "zht": "你來點菜吧！點幾個菜好？", "py": "Nǐ lái diǎn cài ba! Diǎn jǐ ge cài hǎo?", "en": "You do the ordering! How many dishes should we get?" },
+      "choices": [
+        {
+          "id": "four-and-soup",
+          "text": { "zh": "四个人，点四个菜一个汤吧。", "zht": "四個人，點四個菜一個湯吧。", "py": "Sì ge rén, diǎn sì ge cài yí ge tāng ba.", "en": "There are four of us — let's get four dishes and a soup." },
+          "grade": "best",
+          "feedback": "A classic rule of thumb: one dish per person, plus a soup — all shared family-style.",
+          "next": "allergy"
+        },
+        {
+          "id": "one-each",
+          "text": { "zh": "一人一个菜，自己吃自己的。", "zht": "一人一個菜，自己吃自己的。", "py": "Yì rén yí ge cài, zìjǐ chī zìjǐ de.", "en": "One dish each — everyone eats their own." },
+          "grade": "ok",
+          "feedback": "Right number, wrong idea: Chinese meals are shared. Everyone eats from every dish.",
+          "next": "allergy"
+        },
+        {
+          "id": "one-dish",
+          "text": { "zh": "点一个菜就够了。", "zht": "點一個菜就夠了。", "py": "Diǎn yí ge cài jiù gòu le.", "en": "One dish is enough." },
+          "grade": "wrong",
+          "feedback": "For four people? Your manager would go hungry! Try one dish per person, plus a soup."
+        }
+      ]
+    },
+
+    "allergy": {
+      "speaker": "coworker",
+      "line": { "zh": "对了，我对花生过敏。", "zht": "對了，我對花生過敏。", "py": "Duì le, wǒ duì huāshēng guòmǐn.", "en": "Oh, by the way — I'm allergic to peanuts." },
+      "note": "对…过敏 (duì… guòmǐn) = \"allergic to …\". Several Sichuan dishes, like 宫保鸡丁, come with peanuts.",
+      "choices": [
+        {
+          "id": "tell-server",
+          "text": { "zh": "好，我跟服务员说不放花生。", "zht": "好，我跟服務員說不放花生。", "py": "Hǎo, wǒ gēn fúwùyuán shuō bú fàng huāshēng.", "en": "Okay, I'll tell the server to leave out the peanuts." },
+          "grade": "best",
+          "feedback": "Good teammate! 不放 (bú fàng) = \"don't put in\".",
+          "effects": [{ "type": "setFlag", "flag": "knowsAllergy" }],
+          "next": "server"
+        },
+        {
+          "id": "only-a-few",
+          "text": { "zh": "没关系，花生很少。", "zht": "沒關係，花生很少。", "py": "Méi guānxi, huāshēng hěn shǎo.", "en": "Don't worry, there aren't many peanuts." },
+          "grade": "wrong",
+          "feedback": "Allergies are serious — even a little can be dangerous. Make sure the kitchen leaves them out."
+        }
+      ]
+    },
+
+    "server": {
+      "speaker": "server",
+      "line": { "zh": "几位好！这是菜单。我们的招牌菜是水煮鱼和麻婆豆腐。", "zht": "幾位好！這是菜單。我們的招牌菜是水煮魚和麻婆豆腐。", "py": "Jǐ wèi hǎo! Zhè shì càidān. Wǒmen de zhāopái cài shì shuǐzhǔ yú hé mápó dòufu.", "en": "Hello, everyone! Here's the menu. Our signature dishes are chili-oil boiled fish and mapo tofu." },
+      "choices": [
+        {
+          "id": "no-peanuts",
+          "text": { "zh": "我同事对花生过敏，菜里都别放花生，可以吗？", "zht": "我同事對花生過敏，菜裡都別放花生，可以嗎？", "py": "Wǒ tóngshì duì huāshēng guòmǐn, cài lǐ dōu bié fàng huāshēng, kěyǐ ma?", "en": "My coworker is allergic to peanuts — could you leave them out of everything?" },
+          "grade": "best",
+          "feedback": "Clear and polite. 别放 (bié fàng) = \"don't add\"; 都 makes it \"all of them\".",
+          "effects": [{ "type": "setFlag", "flag": "toldKitchen" }],
+          "next": "no-peanuts-ok"
+        },
+        {
+          "id": "what-is-mapo",
+          "text": { "zh": "麻婆豆腐是什么味道？", "zht": "麻婆豆腐是什麼味道？", "py": "Mápó dòufu shì shénme wèidao?", "en": "What does mapo tofu taste like?" },
+          "grade": "neutral",
+          "feedback": "Good question — listen for 麻 and 辣.",
+          "next": "mala"
+        },
+        {
+          "id": "just-look",
+          "text": { "zh": "好的，我们看一下。", "zht": "好的，我們看一下。", "py": "Hǎo de, wǒmen kàn yíxià.", "en": "Okay, we'll take a look." },
+          "grade": "ok",
+          "feedback": "Don't forget the peanut allergy! Tell the server, or pick 不要花生 on dishes that have them.",
+          "next": "menu"
+        }
+      ]
+    },
+
+    "mala": {
+      "speaker": "server",
+      "line": { "zh": "又麻又辣。“麻”是花椒的味道，舌头会麻麻的。", "zht": "又麻又辣。「麻」是花椒的味道，舌頭會麻麻的。", "py": "Yòu má yòu là. “Má” shì huājiāo de wèidao, shétou huì mámá de.", "en": "Numbing and spicy. The \"numbing\" is Sichuan pepper — your tongue will tingle." },
+      "note": "麻辣 (málà) = 麻 (numbing, from Sichuan peppercorns 花椒) + 辣 (hot, from chili). It's the signature flavor of Sichuan cooking.",
+      "next": "server"
+    },
+
+    "no-peanuts-ok": {
+      "speaker": "server",
+      "line": { "zh": "没问题，我跟厨房说。", "zht": "沒問題，我跟廚房說。", "py": "Méi wèntí, wǒ gēn chúfáng shuō.", "en": "No problem — I'll let the kitchen know." },
+      "next": "menu"
+    },
+
+    "menu": {
+      "speaker": "server",
+      "line": { "zh": "您慢慢看，点好了叫我。", "zht": "您慢慢看，點好了叫我。", "py": "Nín mànmàn kàn, diǎn hǎo le jiào wǒ.", "en": "Take your time — call me when you're ready." },
+      "note": "Aim for about four dishes and a soup. Rice is ordered separately.",
+      "action": "openMenu",
+      "next": "yuxiang"
+    },
+
+    "yuxiang": {
+      "speaker": "coworker",
+      "line": { "zh": "问你个问题：鱼香肉丝里面有鱼吗？", "zht": "問你個問題：魚香肉絲裡面有魚嗎？", "py": "Wèn nǐ ge wèntí: yúxiāng ròusī lǐmiàn yǒu yú ma?", "en": "Quiz time: is there any fish in \"fish-fragrant\" pork?" },
+      "choices": [
+        {
+          "id": "no-fish",
+          "text": { "zh": "没有鱼！“鱼香”是一种味道，又酸又甜又辣。", "zht": "沒有魚！「魚香」是一種味道，又酸又甜又辣。", "py": "Méiyǒu yú! “Yúxiāng” shì yì zhǒng wèidao, yòu suān yòu tián yòu là.", "en": "No fish! \"Fish-fragrant\" is a flavor — sour, sweet, and spicy." },
+          "grade": "best",
+          "feedback": "Correct! The sauce was originally used for cooking fish, and the name stuck.",
+          "next": "confirm"
+        },
+        {
+          "id": "dont-know",
+          "text": { "zh": "我不知道。", "zht": "我不知道。", "py": "Wǒ bù zhīdào.", "en": "I don't know." },
+          "grade": "ok",
+          "feedback": "Fair! The answer: no fish — 鱼香 is a sour-sweet-spicy sauce.",
+          "next": "confirm"
+        },
+        {
+          "id": "lots-of-fish",
+          "text": { "zh": "有，很多鱼。", "zht": "有，很多魚。", "py": "Yǒu, hěn duō yú.", "en": "Yes, lots of fish." },
+          "grade": "wrong",
+          "feedback": "Trick question — there's no fish at all! 鱼香 is the name of the sauce."
+        }
+      ]
+    },
+
+    "confirm": {
+      "speaker": "server",
+      "line": { "zh": "好的，我重复一下：{order}。对吗？", "zht": "好的，我重複一下：{order}。對嗎？", "py": "Hǎo de, wǒ chóngfù yíxià: {order}. Duì ma?", "en": "Okay, let me repeat that: {order}. Is that right?" },
+      "choices": [
+        {
+          "id": "yes",
+          "text": { "zh": "对，谢谢。", "zht": "對，謝謝。", "py": "Duì, xièxie.", "en": "Yes, thank you." },
+          "grade": "best",
+          "feedback": "Order placed!",
+          "next": "rice"
+        },
+        {
+          "id": "add-dish",
+          "text": { "zh": "再加一个菜。", "zht": "再加一個菜。", "py": "Zài jiā yí ge cài.", "en": "Let's add one more dish." },
+          "grade": "neutral",
+          "feedback": "Sure — back to the menu.",
+          "next": "menu"
+        }
+      ]
+    },
+
+    "rice": {
+      "speaker": "server",
+      "line": { "zh": "米饭要几碗？", "zht": "米飯要幾碗？", "py": "Mǐfàn yào jǐ wǎn?", "en": "How many bowls of rice?" },
+      "note": "碗 (wǎn), \"bowl\", is the measure word here.",
+      "choices": [
+        {
+          "id": "four-bowls",
+          "text": { "zh": "四碗，谢谢。", "zht": "四碗，謝謝。", "py": "Sì wǎn, xièxie.", "en": "Four bowls, please." },
+          "grade": "best",
+          "feedback": "One each. 四碗 — number + measure word + (noun).",
+          "effects": [{ "type": "addItem", "item": "rice", "qty": 4, "locked": true }],
+          "next": "toast"
+        },
+        {
+          "id": "one-bowl",
+          "text": { "zh": "一碗就够了。", "zht": "一碗就夠了。", "py": "Yì wǎn jiù gòu le.", "en": "One bowl is enough." },
+          "grade": "ok",
+          "feedback": "For four people? Everyone usually gets their own bowl: 四碗.",
+          "effects": [{ "type": "addItem", "item": "rice", "qty": 1, "locked": true }],
+          "next": "toast"
+        },
+        {
+          "id": "no-rice",
+          "text": { "zh": "先不要米饭，菜够了。", "zht": "先不要米飯，菜夠了。", "py": "Xiān bú yào mǐfàn, cài gòu le.", "en": "No rice for now — the dishes are enough." },
+          "grade": "neutral",
+          "feedback": "Common at banquets — rice often comes last, if at all.",
+          "next": "toast"
+        }
+      ]
+    },
+
+    "toast": {
+      "speaker": "manager",
+      "line": { "zh": "来，大家干杯！", "zht": "來，大家乾杯！", "py": "Lái, dàjiā gānbēi!", "en": "Come on, everyone — cheers!" },
+      "note": "干杯 (gānbēi) literally means \"dry the cup\". You don't drink alcohol.",
+      "choices": [
+        {
+          "id": "tea-for-wine",
+          "text": { "zh": "我不太会喝酒，以茶代酒，敬您一杯！", "zht": "我不太會喝酒，以茶代酒，敬您一杯！", "py": "Wǒ bú tài huì hē jiǔ, yǐ chá dài jiǔ, jìng nín yì bēi!", "en": "I don't really drink — let me toast you with tea instead!" },
+          "grade": "best",
+          "feedback": "以茶代酒 (yǐ chá dài jiǔ), \"tea in place of alcohol\", is the graceful way to join a toast without drinking. 敬 (jìng) = to toast someone respectfully.",
+          "note": "When clinking glasses with someone senior, hold your glass a little lower than theirs to show respect.",
+          "effects": [{ "type": "setFlag", "flag": "teaForWine" }],
+          "next": "chopsticks"
+        },
+        {
+          "id": "low-glass",
+          "text": { "zh": "干杯！（举起茶杯，碰得比经理低一点）", "zht": "乾杯！（舉起茶杯，碰得比經理低一點）", "py": "Gānbēi! (Jǔ qǐ chábēi, pèng de bǐ jīnglǐ dī yìdiǎn)", "en": "Cheers! (Raise your tea and clink a little lower than the manager's glass)" },
+          "grade": "best",
+          "feedback": "Perfect etiquette — a lower glass shows respect.",
+          "next": "chopsticks"
+        },
+        {
+          "id": "not-drinking",
+          "text": { "zh": "我不喝。", "zht": "我不喝。", "py": "Wǒ bù hē.", "en": "I'm not drinking." },
+          "grade": "ok",
+          "feedback": "Honest, but blunt. Try 以茶代酒 — you still join the toast without the alcohol.",
+          "next": "chopsticks"
+        }
+      ]
+    },
+
+    "chopsticks": {
+      "speaker": "narrator",
+      "line": { "zh": "菜上齐了。经理还没动筷子，你可以先吃吗？", "zht": "菜上齊了。經理還沒動筷子，你可以先吃嗎？", "py": "Cài shàng qí le. Jīnglǐ hái méi dòng kuàizi, nǐ kěyǐ xiān chī ma?", "en": "All the dishes are here. The manager hasn't picked up their chopsticks yet. Can you start eating?" },
+      "choices": [
+        {
+          "id": "after-you",
+          "text": { "zh": "张经理，您先请！", "zht": "張經理，您先請！", "py": "Zhāng jīnglǐ, nín xiān qǐng!", "en": "Manager Zhang, please — after you!" },
+          "grade": "best",
+          "feedback": "Inviting the most senior person to start (动筷子, dòng kuàizi) is perfect manners.",
+          "next": "leftovers"
+        },
+        {
+          "id": "wait",
+          "text": { "zh": "（等经理先动筷子）", "zht": "（等經理先動筷子）", "py": "(Děng jīnglǐ xiān dòng kuàizi)", "en": "(Wait for the manager to start)" },
+          "grade": "best",
+          "feedback": "Patient and polite.",
+          "next": "leftovers"
+        },
+        {
+          "id": "dig-in",
+          "text": { "zh": "马上开吃！", "zht": "馬上開吃！", "py": "Mǎshàng kāi chī!", "en": "Dig in right away!" },
+          "grade": "wrong",
+          "feedback": "Hold on — at a formal dinner, wait for the most senior person to start first."
+        }
+      ]
+    },
+
+    "leftovers": {
+      "speaker": "server",
+      "line": { "zh": "吃好了吗？剩下的菜要打包吗？", "zht": "吃好了嗎？剩下的菜要打包嗎？", "py": "Chī hǎo le ma? Shèng xià de cài yào dǎbāo ma?", "en": "All finished? Would you like the leftovers packed up?" },
+      "note": "Taking leftovers home is completely normal. China even has a \"clean plate\" campaign against food waste (光盘行动, guāngpán xíngdòng).",
+      "choices": [
+        {
+          "id": "pack",
+          "text": { "zh": "好的，麻烦帮我们打包。", "zht": "好的，麻煩幫我們打包。", "py": "Hǎo de, máfan bāng wǒmen dǎbāo.", "en": "Yes, please pack them up for us." },
+          "grade": "best",
+          "feedback": "No food wasted!",
+          "next": "expense"
+        },
+        {
+          "id": "clean-plates",
+          "text": { "zh": "不用了，都吃完了。", "zht": "不用了，都吃完了。", "py": "Bú yòng le, dōu chī wán le.", "en": "No need — we finished everything." },
+          "grade": "best",
+          "feedback": "光盘 — clean plates!",
+          "next": "expense"
+        }
+      ]
+    },
+
+    "expense": {
+      "speaker": "manager",
+      "line": { "zh": "小李，你先付，回公司报销。", "zht": "小李，你先付，回公司報銷。", "py": "Xiǎo Lǐ, nǐ xiān fù, huí gōngsī bàoxiāo.", "en": "Xiao Li, you pay for now and claim it back at the office." },
+      "note": "报销 (bàoxiāo) = to get reimbursed for an expense.",
+      "choices": [
+        {
+          "id": "will-get-fapiao",
+          "text": { "zh": "好的，我会要发票。", "zht": "好的，我會要發票。", "py": "Hǎo de, wǒ huì yào fāpiào.", "en": "Sure — I'll ask for a fapiao." },
+          "grade": "best",
+          "feedback": "Smart! To claim expenses in China you need a 发票 (fāpiào), an official tax receipt.",
+          "next": "call-bill"
+        },
+        {
+          "id": "no-problem",
+          "text": { "zh": "好的，没问题。", "zht": "好的，沒問題。", "py": "Hǎo de, méi wèntí.", "en": "Sure, no problem." },
+          "grade": "ok",
+          "feedback": "Fine — but remember: no 发票 (official receipt), no reimbursement!",
+          "next": "call-bill"
+        }
+      ]
+    },
+
+    "call-bill": {
+      "speaker": "narrator",
+      "line": { "zh": "你去叫服务员结账。", "zht": "你去叫服務員結賬。", "py": "Nǐ qù jiào fúwùyuán jiézhàng.", "en": "You call the server over to pay." },
+      "choices": [
+        {
+          "id": "shuaige",
+          "text": { "zh": "帅哥，结账！", "zht": "帥哥，結賬！", "py": "Shuàigē, jiézhàng!", "en": "Excuse me (handsome) — the bill!" },
+          "grade": "best",
+          "feedback": "帅哥 (shuàigē), \"handsome guy\", is an everyday friendly way to call male staff — like 美女 for women.",
+          "next": "pay"
+        },
+        {
+          "id": "fuwuyuan",
+          "text": { "zh": "服务员，买单！", "zht": "服務員，買單！", "py": "Fúwùyuán, mǎidān!", "en": "Excuse me, the bill!" },
+          "grade": "best",
+          "feedback": "Classic and correct.",
+          "next": "pay"
+        }
+      ]
+    },
+
+    "pay": {
+      "speaker": "server",
+      "line": { "zh": "一共{total}块。需要发票吗？", "zht": "一共{total}塊。需要發票嗎？", "py": "Yígòng {total} kuài. Xūyào fāpiào ma?", "en": "¥{total} in total. Do you need a fapiao?" },
+      "choices": [
+        {
+          "id": "fapiao-yes",
+          "text": { "zh": "要，开公司的抬头。", "zht": "要，開公司的抬頭。", "py": "Yào, kāi gōngsī de táitóu.", "en": "Yes, please — made out to my company." },
+          "grade": "best",
+          "feedback": "开发票 (kāi fāpiào) = issue a fapiao; 抬头 (táitóu) is the name it's made out to. Your company will pay you back!",
+          "effects": [{ "type": "setFlag", "flag": "reimbursed" }],
+          "next": "pay-method"
+        },
+        {
+          "id": "fapiao-no",
+          "text": { "zh": "不用了。", "zht": "不用了。", "py": "Bú yòng le.", "en": "No, thanks." },
+          "grade": "ok",
+          "feedback": "Oops — without a 发票 you can't claim the dinner back. This one's on you!",
+          "next": "pay-method"
+        }
+      ]
+    },
+
+    "pay-method": {
+      "speaker": "server",
+      "line": { "zh": "好的。扫码还是刷卡？", "zht": "好的。掃碼還是刷卡？", "py": "Hǎo de. Sǎo mǎ háishi shuā kǎ?", "en": "Sure. QR code or card?" },
+      "note": "刷卡 (shuā kǎ) = to swipe a card.",
+      "choices": [
+        {
+          "id": "qr",
+          "text": { "zh": "扫码。", "zht": "掃碼。", "py": "Sǎo mǎ.", "en": "QR code." },
+          "grade": "best",
+          "feedback": "Done!",
+          "effects": [{ "type": "setFlag", "flag": "payment", "value": "qr" }],
+          "next": "goodbye"
+        },
+        {
+          "id": "card",
+          "text": { "zh": "刷卡吧。", "zht": "刷卡吧。", "py": "Shuā kǎ ba.", "en": "Card, please." },
+          "grade": "best",
+          "feedback": "Done!",
+          "effects": [{ "type": "setFlag", "flag": "payment", "value": "card" }],
+          "next": "goodbye"
+        }
+      ]
+    },
+
+    "goodbye": {
+      "speaker": "host",
+      "line": { "zh": "谢谢光临，各位慢走！", "zht": "謝謝光臨，各位慢走！", "py": "Xièxie guānglín, gèwèi màn zǒu!", "en": "Thank you for coming — take care, everyone!" },
+      "note": "各位 (gèwèi), \"everyone\", is the polite way to address a group.",
+      "action": "checkout"
+    }
+  },
+
+  "menu": {
+    "optionGroups": {
+      "spice": {
+        "type": "single",
+        "label": { "zh": "辣度", "zht": "辣度", "py": "làdù", "en": "Spice level" },
+        "choices": [
+          { "id": "mild", "text": { "zh": "微辣", "zht": "微辣", "py": "wēi là", "en": "mild" } },
+          { "id": "medium", "text": { "zh": "中辣", "zht": "中辣", "py": "zhōng là", "en": "medium spicy" }, "default": true },
+          { "id": "extra", "text": { "zh": "特辣", "zht": "特辣", "py": "tè là", "en": "extra spicy" } }
+        ]
+      },
+      "peanuts": {
+        "type": "single",
+        "label": { "zh": "花生", "zht": "花生", "py": "huāshēng", "en": "Peanuts" },
+        "note": "Remember Xiao Wang's allergy!",
+        "choices": [
+          { "id": "yes", "text": { "zh": "要花生", "zht": "要花生", "py": "yào huāshēng", "en": "with peanuts" }, "default": true, "silent": true },
+          { "id": "no", "text": { "zh": "不要花生", "zht": "不要花生", "py": "bú yào huāshēng", "en": "no peanuts" } }
+        ]
+      }
+    },
+
+    "categories": [
+      {
+        "id": "specials",
+        "name": { "zh": "招牌菜", "zht": "招牌菜", "py": "zhāopái cài", "en": "House specials" },
+        "items": [
+          { "id": "boiled-fish", "emoji": "🐟", "name": { "zh": "水煮鱼", "zht": "水煮魚", "py": "shuǐzhǔ yú", "en": "fish in sizzling chili oil" }, "price": 68, "tags": ["signature", "spicy"], "options": ["spice"], "note": "Despite the name (\"water-boiled fish\"), it arrives swimming in chili oil and Sichuan peppercorns." },
+          { "id": "mapo-tofu", "emoji": "🥘", "name": { "zh": "麻婆豆腐", "zht": "麻婆豆腐", "py": "mápó dòufu", "en": "mapo tofu" }, "price": 22, "tags": ["signature", "spicy"], "options": ["spice"], "note": "Named after a pockmarked old woman (麻婆) who cooked it in 19th-century Chengdu." }
+        ]
+      },
+      {
+        "id": "hot",
+        "name": { "zh": "热菜", "zht": "熱菜", "py": "rècài", "en": "Hot dishes" },
+        "items": [
+          { "id": "kungpao", "emoji": "🐓", "name": { "zh": "宫保鸡丁", "zht": "宮保雞丁", "py": "gōngbǎo jīdīng", "en": "kung pao chicken" }, "price": 32, "tags": ["spicy"], "options": ["spice", "peanuts"], "note": "Made with fried peanuts — choose 不要花生 for allergies." },
+          { "id": "yuxiang-pork", "emoji": "🥢", "name": { "zh": "鱼香肉丝", "zht": "魚香肉絲", "py": "yúxiāng ròusī", "en": "fish-fragrant shredded pork" }, "price": 28, "options": ["spice"] },
+          { "id": "twice-cooked-pork", "emoji": "🥓", "name": { "zh": "回锅肉", "zht": "回鍋肉", "py": "huíguō ròu", "en": "twice-cooked pork" }, "price": 32, "tags": ["spicy"], "note": "Boiled, sliced, then stir-fried — \"returned to the wok\" (回锅)." },
+          { "id": "green-beans", "emoji": "🫛", "name": { "zh": "干煸四季豆", "zht": "乾煸四季豆", "py": "gānbiān sìjìdòu", "en": "dry-fried green beans" }, "price": 22 },
+          { "id": "fuqi-feipian", "emoji": "🥩", "name": { "zh": "夫妻肺片", "zht": "夫妻肺片", "py": "fūqī fèipiàn", "en": "\"husband and wife\" beef slices" }, "price": 32, "tags": ["spicy"], "note": "A cold appetizer named after the couple who sold it in Chengdu. Despite 肺 (lung) in the name, it's usually beef and tripe today." }
+        ]
+      },
+      {
+        "id": "soup",
+        "name": { "zh": "汤", "zht": "湯", "py": "tāng", "en": "Soups" },
+        "items": [
+          { "id": "hot-sour-soup", "emoji": "🍲", "name": { "zh": "酸辣汤", "zht": "酸辣湯", "py": "suānlà tāng", "en": "hot and sour soup" }, "price": 18 },
+          { "id": "tomato-egg-soup", "emoji": "🍅", "name": { "zh": "番茄蛋汤", "zht": "番茄蛋湯", "py": "fānqié dàn tāng", "en": "tomato egg soup" }, "price": 15, "tags": ["vegetarian"] }
+        ]
+      },
+      {
+        "id": "staples",
+        "name": { "zh": "主食和饮料", "zht": "主食和飲料", "py": "zhǔshí hé yǐnliào", "en": "Staples & drinks" },
+        "items": [
+          { "id": "rice", "emoji": "🍚", "name": { "zh": "米饭", "zht": "米飯", "py": "mǐfàn", "en": "steamed rice (bowl)" }, "price": 2 },
+          { "id": "dandan", "emoji": "🍜", "name": { "zh": "担担面", "zht": "擔擔麵", "py": "dàndan miàn", "en": "dan dan noodles" }, "price": 14, "tags": ["spicy"], "options": ["spice", "peanuts"], "note": "Named for the shoulder pole (担) street vendors used to carry their stoves." },
+          { "id": "herbal-tea", "emoji": "🥫", "name": { "zh": "王老吉", "zht": "王老吉", "py": "Wánglǎojí", "en": "Wong Lo Kat herbal tea" }, "price": 6, "note": "A canned herbal tea people drink to \"cool down\" (降火) after spicy food." },
+          { "id": "chrysanthemum-tea", "emoji": "🍵", "name": { "zh": "菊花茶（一壶）", "zht": "菊花茶（一壺）", "py": "júhuā chá (yì hú)", "en": "chrysanthemum tea (pot)" }, "price": 15 }
+        ]
+      }
+    ]
+  }
+}

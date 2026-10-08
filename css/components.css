@@ -382,6 +382,8 @@ dialog.sheet::backdrop { background: rgb(40 16 6 / .5); backdrop-filter: blur(2p
 .receipt-lines li { display: flex; justify-content: space-between; gap: 12px; }
 .receipt-total { display: flex; justify-content: space-between; padding-top: 10px; border-top: 2px dashed var(--line); font-size: 18px; }
 .receipt-pay, .receipt-note { font-size: 13px; color: var(--ink-soft); }
+.receipt-reimbursed { font-size: 13px; font-weight: 700; color: var(--best); }
+.cart-lock { display: grid; place-items: center; width: 32px; height: 32px; font-size: 14px; opacity: .7; }
 
 .rewards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 18px; }
 .reward {

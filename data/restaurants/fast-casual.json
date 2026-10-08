@@ -1,0 +1,294 @@
+{
+  "$schema": "../../schemas/restaurant.schema.json",
+  "schemaVersion": 1,
+  "id": "fast-casual",
+  "name": { "zh": "好味快餐", "zht": "好味快餐", "py": "Hǎowèi Kuàicān", "en": "Tasty Express" },
+  "scene": { "emoji": "🍱", "props": ["🏮", "🥡", "🍚", "🧾"], "colors": ["#b9e4c9", "#3fa37a"] },
+  "startNode": "greet",
+  "rewards": { "exp": 50, "cny": 35 },
+
+  "npcs": {
+    "cashier": { "avatar": "👩‍💼", "name": { "zh": "收银员", "zht": "收銀員", "py": "shōuyínyuán", "en": "Cashier" } },
+    "counter": { "avatar": "👩‍🍳", "name": { "zh": "打菜阿姨", "zht": "打菜阿姨", "py": "dǎcài āyí", "en": "Serving Auntie" } }
+  },
+
+  "dialogue": {
+    "greet": {
+      "speaker": "cashier",
+      "line": { "zh": "你好！吃点什么？", "zht": "你好！吃點什麼？", "py": "Nǐ hǎo! Chī diǎn shénme?", "en": "Hi! What'll you have?" },
+      "note": "At a 快餐 (fast-food) place you order and pay at the counter first, then wait for your number.",
+      "choices": [
+        {
+          "id": "look-first",
+          "text": { "zh": "我先看看。", "zht": "我先看看。", "py": "Wǒ xiān kànkan.", "en": "Let me have a look first." },
+          "grade": "best",
+          "feedback": "Doubling a verb (看看) makes it light and casual: \"take a quick look\".",
+          "next": "menu"
+        },
+        {
+          "id": "ask-sets",
+          "text": { "zh": "有什么套餐？", "zht": "有什麼套餐？", "py": "Yǒu shénme tàocān?", "en": "What set meals do you have?" },
+          "grade": "best",
+          "feedback": "套餐 (tàocān) means a set meal or combo.",
+          "next": "sets"
+        },
+        {
+          "id": "want-table",
+          "text": { "zh": "请给我菜单，我要坐下点菜。", "zht": "請給我菜單，我要坐下點菜。", "py": "Qǐng gěi wǒ càidān, wǒ yào zuò xià diǎn cài.", "en": "Please give me a menu — I'd like to sit down and order." },
+          "grade": "wrong",
+          "feedback": "There's no table service here — the menu is up on the wall and you order right at the counter."
+        }
+      ]
+    },
+
+    "sets": {
+      "speaker": "cashier",
+      "line": { "zh": "套餐都有米饭。汤要另外加钱。", "zht": "套餐都有米飯。湯要另外加錢。", "py": "Tàocān dōu yǒu mǐfàn. Tāng yào lìngwài jiā qián.", "en": "Every set comes with rice. Soup costs extra." },
+      "note": "另外 (lìngwài) means \"separately, in addition\".",
+      "next": "menu"
+    },
+
+    "menu": {
+      "speaker": "cashier",
+      "line": { "zh": "菜单在墙上，点好了告诉我。", "zht": "菜單在牆上，點好了告訴我。", "py": "Càidān zài qiáng shang, diǎn hǎo le gàosu wǒ.", "en": "The menu's on the wall — tell me when you're ready." },
+      "action": "openMenu",
+      "next": "here-or-go"
+    },
+
+    "here-or-go": {
+      "speaker": "cashier",
+      "line": { "zh": "在这儿吃还是带走？", "zht": "在這兒吃還是帶走？", "py": "Zài zhèr chī háishi dài zǒu?", "en": "For here or to go?" },
+      "note": "还是 (háishi) asks \"A or B?\" in questions.",
+      "choices": [
+        {
+          "id": "for-here",
+          "text": { "zh": "在这儿吃。", "zht": "在這兒吃。", "py": "Zài zhèr chī.", "en": "For here." },
+          "grade": "best",
+          "feedback": "Simple and clear.",
+          "next": "pay"
+        },
+        {
+          "id": "to-go",
+          "text": { "zh": "打包，谢谢。", "zht": "打包，謝謝。", "py": "Dǎbāo, xièxie.", "en": "To go, please." },
+          "grade": "best",
+          "feedback": "打包 (dǎbāo), \"pack it up\", is also how you ask to take leftovers home. Takeaway boxes cost ¥1.",
+          "effects": [{ "type": "addItem", "item": "takeaway-box", "locked": true }],
+          "next": "pay"
+        },
+        {
+          "id": "eat-rice",
+          "text": { "zh": "我吃米饭。", "zht": "我吃米飯。", "py": "Wǒ chī mǐfàn.", "en": "I eat rice." },
+          "grade": "wrong",
+          "feedback": "She's asking where you'll eat: 在这儿吃 (here) or 带走 / 打包 (to go)."
+        }
+      ]
+    },
+
+    "pay": {
+      "speaker": "cashier",
+      "line": { "zh": "好的，{order}，一共{total}块。扫这里。", "zht": "好的，{order}，一共{total}塊。掃這裡。", "py": "Hǎo de, {order}, yígòng {total} kuài. Sǎo zhèlǐ.", "en": "Okay: {order} — ¥{total} total. Scan here." },
+      "note": "At counter-service places you pay before you eat.",
+      "choices": [
+        {
+          "id": "scan",
+          "text": { "zh": "（扫码）好了。", "zht": "（掃碼）好了。", "py": "(Sǎo mǎ) Hǎo le.", "en": "(Scan the code) Done." },
+          "grade": "best",
+          "feedback": "好了 (hǎo le) = \"done / all set\".",
+          "effects": [{ "type": "setFlag", "flag": "payment", "value": "qr" }],
+          "next": "number"
+        },
+        {
+          "id": "cash-ok",
+          "text": { "zh": "可以用现金吗？", "zht": "可以用現金嗎？", "py": "Kěyǐ yòng xiànjīn ma?", "en": "Can I pay cash?" },
+          "grade": "best",
+          "feedback": "可以…吗 is the polite way to ask permission. (She says yes!)",
+          "effects": [{ "type": "setFlag", "flag": "payment", "value": "cash" }],
+          "next": "number"
+        },
+        {
+          "id": "change-order",
+          "text": { "zh": "等一下，我想改一下。", "zht": "等一下，我想改一下。", "py": "Děng yíxià, wǒ xiǎng gǎi yíxià.", "en": "Hang on, I'd like to change it." },
+          "grade": "neutral",
+          "feedback": "No problem — back to the menu.",
+          "next": "menu"
+        }
+      ]
+    },
+
+    "number": {
+      "speaker": "cashier",
+      "line": { "zh": "这是你的小票，你是三十八号。", "zht": "這是你的小票，你是三十八號。", "py": "Zhè shì nǐ de xiǎopiào, nǐ shì sānshíbā hào.", "en": "Here's your receipt — you're number 38." },
+      "note": "号 (hào) = number. 38 is 三十八: \"three-ten-eight\". Listen for it! (Hide Pinyin and English for a real listening test.)",
+      "next": "call-36"
+    },
+
+    "call-36": {
+      "speaker": "counter",
+      "line": { "zh": "三十六号！三十六号好了！", "zht": "三十六號！三十六號好了！", "py": "Sānshíliù hào! Sānshíliù hào hǎo le!", "en": "Number 36! Number 36 is ready!" },
+      "choices": [
+        {
+          "id": "grab-36",
+          "text": { "zh": "（过去拿）是我的！", "zht": "（過去拿）是我的！", "py": "(Guòqù ná) Shì wǒ de!", "en": "(Go and grab it) That's mine!" },
+          "grade": "wrong",
+          "feedback": "Listen again: 三十六 is 36. You're 三十八 (38)!"
+        },
+        {
+          "id": "wait-36",
+          "text": { "zh": "（继续等）还不是我。", "zht": "（繼續等）還不是我。", "py": "(Jìxù děng) Hái bú shì wǒ.", "en": "(Keep waiting) Not mine yet." },
+          "grade": "best",
+          "feedback": "Good ears — 六 (liù) is 6, not 8.",
+          "next": "call-38"
+        }
+      ]
+    },
+
+    "call-38": {
+      "speaker": "counter",
+      "line": { "zh": "三十八号！三十八号好了！", "zht": "三十八號！三十八號好了！", "py": "Sānshíbā hào! Sānshíbā hào hǎo le!", "en": "Number 38! Number 38 is ready!" },
+      "choices": [
+        {
+          "id": "thats-me",
+          "text": { "zh": "我是三十八号，谢谢！", "zht": "我是三十八號，謝謝！", "py": "Wǒ shì sānshíbā hào, xièxie!", "en": "I'm number 38, thanks!" },
+          "grade": "best",
+          "feedback": "That's you!",
+          "next": "condiments"
+        },
+        {
+          "id": "keep-waiting",
+          "text": { "zh": "（继续等）", "zht": "（繼續等）", "py": "(Jìxù děng)", "en": "(Keep waiting)" },
+          "grade": "wrong",
+          "feedback": "That's you! 三十八 = 38. Go get your food before it gets cold."
+        }
+      ]
+    },
+
+    "condiments": {
+      "speaker": "counter",
+      "line": { "zh": "筷子和纸巾在那边，自己拿。", "zht": "筷子和紙巾在那邊，自己拿。", "py": "Kuàizi hé zhǐjīn zài nà biān, zìjǐ ná.", "en": "Chopsticks and napkins are over there — help yourself." },
+      "note": "自己拿 (zìjǐ ná), \"take it yourself\": self-service is normal at 快餐 places.",
+      "choices": [
+        {
+          "id": "ok-thanks",
+          "text": { "zh": "好的，谢谢！", "zht": "好的，謝謝！", "py": "Hǎo de, xièxie!", "en": "Okay, thanks!" },
+          "grade": "best",
+          "feedback": "Polite and quick — perfect for a busy counter.",
+          "next": "eat"
+        },
+        {
+          "id": "more-chili",
+          "text": { "zh": "能多给我一点辣椒酱吗？", "zht": "能多給我一點辣椒醬嗎？", "py": "Néng duō gěi wǒ yìdiǎn làjiāo jiàng ma?", "en": "Could I have a bit more chili sauce?" },
+          "grade": "best",
+          "feedback": "多给 (duō gěi) means \"give more\"; 一点 softens the request.",
+          "next": "chili"
+        }
+      ]
+    },
+
+    "chili": {
+      "speaker": "counter",
+      "line": { "zh": "辣椒酱也在那边，随便加。", "zht": "辣椒醬也在那邊，隨便加。", "py": "Làjiāo jiàng yě zài nà biān, suíbiàn jiā.", "en": "The chili sauce is over there too — add as much as you like." },
+      "next": "eat"
+    },
+
+    "eat": {
+      "speaker": "narrator",
+      "line": { "zh": "饭菜很快就吃完了——又快又好吃！", "zht": "飯菜很快就吃完了——又快又好吃！", "py": "Fàncài hěn kuài jiù chī wán le — yòu kuài yòu hǎochī!", "en": "The food is gone in no time — fast and tasty!" },
+      "note": "又…又… (yòu… yòu…) means \"both … and …\".",
+      "next": "goodbye"
+    },
+
+    "goodbye": {
+      "speaker": "cashier",
+      "line": { "zh": "慢走，欢迎下次光临！", "zht": "慢走，歡迎下次光臨！", "py": "Màn zǒu, huānyíng xià cì guānglín!", "en": "Take care — come again!" },
+      "choices": [
+        {
+          "id": "bye",
+          "text": { "zh": "谢谢，再见！", "zht": "謝謝，再見！", "py": "Xièxie, zàijiàn!", "en": "Thanks, bye!" },
+          "grade": "best",
+          "feedback": "See you next time!",
+          "next": "done"
+        },
+        {
+          "id": "come-back",
+          "text": { "zh": "很好吃！我明天再来。", "zht": "很好吃！我明天再來。", "py": "Hěn hǎochī! Wǒ míngtiān zài lái.", "en": "Delicious! I'll be back tomorrow." },
+          "grade": "best",
+          "feedback": "再来 (zài lái) = \"come again\". Regulars get remembered!",
+          "next": "done"
+        }
+      ]
+    },
+
+    "done": {
+      "speaker": "narrator",
+      "line": { "zh": "又学会了几句中文！", "zht": "又學會了幾句中文！", "py": "Yòu xuéhuì le jǐ jù Zhōngwén!", "en": "You learned a few more Chinese phrases!" },
+      "action": "checkout"
+    }
+  },
+
+  "menu": {
+    "optionGroups": {
+      "rice": {
+        "type": "single",
+        "label": { "zh": "米饭", "zht": "米飯", "py": "mǐfàn", "en": "Rice" },
+        "choices": [
+          { "id": "normal", "text": { "zh": "正常", "zht": "正常", "py": "zhèngcháng", "en": "regular rice" }, "default": true, "silent": true },
+          { "id": "less", "text": { "zh": "少饭", "zht": "少飯", "py": "shǎo fàn", "en": "less rice" } },
+          { "id": "extra", "text": { "zh": "加饭", "zht": "加飯", "py": "jiā fàn", "en": "extra rice" }, "price": 2 }
+        ]
+      },
+      "chili": {
+        "type": "single",
+        "label": { "zh": "辣椒", "zht": "辣椒", "py": "làjiāo", "en": "Chili" },
+        "choices": [
+          { "id": "none", "text": { "zh": "不要辣", "zht": "不要辣", "py": "bú yào là", "en": "no chili" }, "default": true, "silent": true },
+          { "id": "add", "text": { "zh": "加辣", "zht": "加辣", "py": "jiā là", "en": "add chili" } }
+        ]
+      },
+      "temp": {
+        "type": "single",
+        "label": { "zh": "温度", "zht": "溫度", "py": "wēndù", "en": "Temperature" },
+        "choices": [
+          { "id": "hot", "text": { "zh": "热的", "zht": "熱的", "py": "rè de", "en": "hot" }, "default": true },
+          { "id": "cold", "text": { "zh": "冰的", "zht": "冰的", "py": "bīng de", "en": "iced" } }
+        ]
+      }
+    },
+
+    "categories": [
+      {
+        "id": "sets",
+        "name": { "zh": "套餐", "zht": "套餐", "py": "tàocān", "en": "Set meals (with rice)" },
+        "items": [
+          { "id": "braised-pork-rice", "emoji": "🍛", "name": { "zh": "红烧肉饭", "zht": "紅燒肉飯", "py": "hóngshāo ròu fàn", "en": "red-braised pork with rice" }, "price": 22, "tags": ["signature"], "options": ["rice", "chili"], "note": "红烧 (hóngshāo), \"red-braising\" in soy sauce and sugar, is a home-cooking classic." },
+          { "id": "tomato-egg-rice", "emoji": "🍅", "name": { "zh": "番茄炒蛋饭", "zht": "番茄炒蛋飯", "py": "fānqié chǎo dàn fàn", "en": "tomato & egg stir-fry with rice" }, "price": 16, "tags": ["vegetarian"], "options": ["rice"] },
+          { "id": "pepper-beef-rice", "emoji": "🥩", "name": { "zh": "黑椒牛柳饭", "zht": "黑椒牛柳飯", "py": "hēijiāo niúliǔ fàn", "en": "black-pepper beef with rice" }, "price": 24, "options": ["rice", "chili"] },
+          { "id": "curry-chicken-rice", "emoji": "🐔", "name": { "zh": "咖喱鸡饭", "zht": "咖喱雞飯", "py": "gālí jī fàn", "en": "curry chicken with rice" }, "price": 20, "options": ["rice", "chili"] }
+        ]
+      },
+      {
+        "id": "snacks",
+        "name": { "zh": "小吃和汤", "zht": "小吃和湯", "py": "xiǎochī hé tāng", "en": "Snacks & soup" },
+        "items": [
+          { "id": "chicken-wings", "emoji": "🍗", "name": { "zh": "炸鸡翅", "zht": "炸雞翅", "py": "zhá jīchì", "en": "fried chicken wings" }, "price": 12, "options": ["chili"] },
+          { "id": "tea-egg", "emoji": "🥚", "name": { "zh": "茶叶蛋", "zht": "茶葉蛋", "py": "cháyè dàn", "en": "tea egg" }, "price": 3, "note": "Eggs simmered in tea and soy sauce — the cracked shell makes a marbled pattern." },
+          { "id": "seaweed-soup", "emoji": "🍲", "name": { "zh": "紫菜蛋花汤", "zht": "紫菜蛋花湯", "py": "zǐcài dànhuā tāng", "en": "seaweed egg-drop soup" }, "price": 6 }
+        ]
+      },
+      {
+        "id": "drinks",
+        "name": { "zh": "饮料", "zht": "飲料", "py": "yǐnliào", "en": "Drinks" },
+        "items": [
+          { "id": "soy-milk", "emoji": "🥛", "name": { "zh": "豆浆", "zht": "豆漿", "py": "dòujiāng", "en": "soy milk" }, "price": 4, "options": ["temp"] },
+          { "id": "green-tea", "emoji": "🍵", "name": { "zh": "绿茶", "zht": "綠茶", "py": "lǜchá", "en": "bottled green tea" }, "price": 5 }
+        ]
+      },
+      {
+        "id": "other",
+        "name": { "zh": "其他", "zht": "其他", "py": "qítā", "en": "Other" },
+        "items": [
+          { "id": "takeaway-box", "emoji": "📦", "name": { "zh": "打包盒", "zht": "打包盒", "py": "dǎbāo hé", "en": "takeaway box" }, "price": 1, "hidden": true }
+        ]
+      }
+    ]
+  }
+}

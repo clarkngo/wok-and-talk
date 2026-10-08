@@ -94,5 +94,13 @@ export function validateRestaurant(r) {
     }
   }
 
+  const addedByDialogue = new Set(Object.values(nodes).flatMap((n) => (n.choices ?? [])
+    .flatMap((c) => (c.effects ?? []).filter((fx) => fx.type === 'addItem').map((fx) => fx.item))));
+  for (const cat of r.menu.categories ?? []) {
+    for (const item of cat.items) {
+      if (item.hidden && !addedByDialogue.has(item.id)) err(`menu.${cat.id}.${item.id}`, 'hidden but never added by dialogue — players can never get it');
+    }
+  }
+
   return problems;
 }

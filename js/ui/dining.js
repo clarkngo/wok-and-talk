@@ -196,7 +196,7 @@ function renderAction(node) {
       h('button', {
         type: 'button', class: 'btn btn-primary btn-block',
         onClick: () => ctx.nav.toCheckout(actions.completeMeal(restaurant, ctx.catalog.badges)),
-      }, `💳 Pay ¥${total} & finish · `, h('span', { class: 'zh-s', lang: 'zh-Hans' }, '结账'), h('span', { class: 'zh-t', lang: 'zh-Hant' }, '結賬')));
+      }, `🧾 Finish meal (¥${total}) · `, h('span', { lang: 'zh-Hans' }, '完成')));
   }
 }
 
