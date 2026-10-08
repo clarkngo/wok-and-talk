@@ -4,6 +4,7 @@ import { h, mount } from './dom.js';
 import { tri, inline } from './text.js';
 import { screenRoot, showScreen } from './screens.js';
 import { describeLine, linePrice } from '../engine/order.js';
+import { playSequence } from '../core/sfx.js';
 
 const PAYMENT = {
   qr: { zh: '扫码支付', zht: '掃碼支付', py: 'sǎomǎ zhīfù', en: 'QR code' },
@@ -65,4 +66,9 @@ export function renderCheckout(result) {
       h('button', { type: 'button', class: 'btn btn-ghost', onClick: () => nav.toDining(r.id) }, '🔁 Eat here again')));
 
   showScreen('checkout');
+  playSequence([
+    ['register', 0],
+    ...(result.newBadges.length ? [['badge', 900]] : []),
+    ...(result.levelAfter > result.levelBefore ? [['levelUp', result.newBadges.length ? 2000 : 900]] : []),
+  ]);
 }

@@ -4,6 +4,7 @@ import { h, $ } from './dom.js';
 import { tri, inline, speakButton } from './text.js';
 import { getState } from '../core/store.js';
 import { setOrder } from '../core/actions.js';
+import { play } from '../core/sfx.js';
 import {
   addLine, defaultChoices, describeLine, getGroup, getItem, linePrice, orderPhrase, orderTotal, removeOne, unitPrice,
 } from '../engine/order.js';
@@ -36,6 +37,7 @@ export function openMenu(restaurant, { onSubmit }) {
   };
   render();
   dlg.showModal();
+  play('page');
 }
 
 function menu() {
@@ -133,6 +135,7 @@ function refreshCustomize() {
 
 function addCurrent() {
   m.draft = addLine(m.draft, currentLine());
+  play('add');
   m.editing = null;
   render();
   $('.cart', dlg)?.classList.add('bump');
@@ -158,7 +161,7 @@ function cartView() {
               ? h('span', { class: 'cart-lock', title: 'Added during the conversation', 'aria-label': 'Included — added during the conversation' }, '🔒')
               : h('button', {
                   type: 'button', class: 'icon-btn icon-btn-dark icon-btn-sm', 'aria-label': `Remove one ${d.en}`,
-                  onClick: () => { m.draft = removeOne(m.draft, i); render(); },
+                  onClick: () => { m.draft = removeOne(m.draft, i); play('remove'); render(); },
                 }, '−'));
         })),
     h('div', { class: 'cart-total' },
@@ -175,6 +178,7 @@ function cartView() {
 function submit() {
   const { draft, onSubmit } = m;
   setOrder(draft);
+  play('bell');
   dlg.close();
   onSubmit();
 }

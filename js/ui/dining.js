@@ -9,6 +9,7 @@ import { toast } from './toast.js';
 import { getState } from '../core/store.js';
 import { loadRestaurant } from '../core/content.js';
 import { speak } from '../core/speech.js';
+import { play } from '../core/sfx.js';
 import * as actions from '../core/actions.js';
 import { getNode, interpolate, resolveChoice, visibleChoices } from '../engine/dialogue.js';
 import { describeOrder, orderTotal } from '../engine/order.js';
@@ -44,6 +45,7 @@ export async function enterDining(restaurantId, { resume = false } = {}) {
   }
   renderShell();
   showScreen('dining');
+  if (!resume) play('gong');
   renderNode(getState().activeMeal.nodeId);
 }
 
@@ -142,6 +144,7 @@ function renderChoices(node, nodeId) {
 
 function pick(node, nodeId, choice, btn) {
   const result = resolveChoice(node, choice);
+  play(result.grade);
   actions.recordAnswer(restaurant, nodeId, choice, result);
   if (getState().settings.autoSpeak) speak(choice.text.zh, getState().settings.speechRate);
 
@@ -175,7 +178,7 @@ function pick(node, nodeId, choice, btn) {
 }
 
 function continueButton(next, label = 'Continue') {
-  return h('button', { type: 'button', class: 'btn btn-primary btn-block', onClick: () => renderNode(next) },
+  return h('button', { type: 'button', class: 'btn btn-primary btn-block', onClick: () => { play('tap'); renderNode(next); } },
     `${label} · `, h('span', { class: 'zh-s', lang: 'zh-Hans' }, '继续'), h('span', { class: 'zh-t', lang: 'zh-Hant' }, '繼續'), ' →');
 }
 

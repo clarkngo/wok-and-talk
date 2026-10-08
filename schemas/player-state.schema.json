@@ -40,6 +40,7 @@
             "showEnglish": { "type": "boolean" },
             "script": { "enum": ["simplified", "traditional"] },
             "autoSpeak": { "type": "boolean" },
+            "soundEffects": { "type": "boolean", "description": "Synthesized UI sound effects. Defaults to true when missing." },
             "tapToSpeak": { "type": "boolean", "description": "Tap any Chinese text to hear it. Added after v1 shipped; defaults to true when missing." },
             "speechRate": { "type": "number", "minimum": 0.5, "maximum": 1.5 }
           }
