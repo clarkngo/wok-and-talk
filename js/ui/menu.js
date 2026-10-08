@@ -4,6 +4,7 @@ import { h, $ } from './dom.js';
 import { tri, inline, speakButton } from './text.js';
 import { getState } from '../core/store.js';
 import { setOrder } from '../core/actions.js';
+import { play } from '../core/sfx.js';
 import {
   addLine, defaultChoices, describeLine, getGroup, getItem, linePrice, orderPhrase, orderTotal, removeOne, unitPrice,
 } from '../engine/order.js';
@@ -36,6 +37,7 @@ export function openMenu(restaurant, { onSubmit }) {
   };
   render();
   dlg.showModal();
+  play('page');
 }
 
 function menu() {
@@ -59,9 +61,11 @@ function render() {
 // ---- Dish list -------------------------------------------------------------
 
 function listView() {
-  return menu().categories.map((cat) => h('section', { class: 'menu-cat' },
+  // `hidden` items (broths, sauce-bar fees…) are only ever added by dialogue.
+  const visible = (cat) => cat.items.filter((item) => !item.hidden);
+  return menu().categories.filter((cat) => visible(cat).length).map((cat) => h('section', { class: 'menu-cat' },
     h('h3', { class: 'menu-cat-title' }, inline(cat.name)),
-    h('ul', { class: 'menu-items', role: 'list' }, cat.items.map((item) => h('li', null,
+    h('ul', { class: 'menu-items', role: 'list' }, visible(cat).map((item) => h('li', null,
       h('button', {
         type: 'button', class: 'menu-item',
         onClick: () => { m.editing = item.id; m.selection = defaultChoices(menu(), item); render(); },
@@ -131,6 +135,7 @@ function refreshCustomize() {
 
 function addCurrent() {
   m.draft = addLine(m.draft, currentLine());
+  play('add');
   m.editing = null;
   render();
   $('.cart', dlg)?.classList.add('bump');
@@ -152,10 +157,12 @@ function cartView() {
           return h('li', { class: 'cart-line' },
             h('span', { class: 'cart-line-name' }, inline(d)),
             h('span', { class: 'price' }, `¥${linePrice(menu(), line)}`),
-            h('button', {
-              type: 'button', class: 'icon-btn icon-btn-dark icon-btn-sm', 'aria-label': `Remove one ${d.en}`,
-              onClick: () => { m.draft = removeOne(m.draft, i); render(); },
-            }, '−'));
+            line.locked
+              ? h('span', { class: 'cart-lock', title: 'Added during the conversation', 'aria-label': 'Included — added during the conversation' }, '🔒')
+              : h('button', {
+                  type: 'button', class: 'icon-btn icon-btn-dark icon-btn-sm', 'aria-label': `Remove one ${d.en}`,
+                  onClick: () => { m.draft = removeOne(m.draft, i); play('remove'); render(); },
+                }, '−'));
         })),
     h('div', { class: 'cart-total' },
       h('span', null, 'Total ', h('strong', null, `¥${total}`)),
@@ -171,6 +178,7 @@ function cartView() {
 function submit() {
   const { draft, onSubmit } = m;
   setOrder(draft);
+  play('bell');
   dlg.close();
   onSubmit();
 }

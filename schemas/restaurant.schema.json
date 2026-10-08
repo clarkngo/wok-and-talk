@@ -113,6 +113,7 @@
                   "type": { "const": "addItem" },
                   "item": { "type": "string", "description": "Menu item id." },
                   "qty": { "type": "integer", "minimum": 1, "maximum": 20, "default": 1 },
+                  "locked": { "type": "boolean", "description": "The line can't be removed on the order sheet (fixed charges like tea, broth, sauce bar)." },
                   "choices": { "type": "object", "additionalProperties": { "type": "array", "items": { "type": "string" } } }
                 }
               }
@@ -188,6 +189,7 @@
         "price": { "type": "number", "minimum": 0 },
         "tags": { "type": "array", "items": { "enum": ["signature", "vegetarian", "spicy"] } },
         "options": { "type": "array", "items": { "type": "string" }, "description": "optionGroup ids, in display order." },
+        "hidden": { "type": "boolean", "description": "Not listed on the menu; only added by dialogue (broths, sauce-bar fees, takeaway boxes)." },
         "note": { "type": "string" }
       }
     }

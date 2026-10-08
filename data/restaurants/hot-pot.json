@@ -1,0 +1,417 @@
+{
+  "$schema": "../../schemas/restaurant.schema.json",
+  "schemaVersion": 1,
+  "id": "hot-pot",
+  "name": { "zh": "重庆老火锅", "zht": "重慶老火鍋", "py": "Chóngqìng Lǎo Huǒguō", "en": "Old Chongqing Hot Pot" },
+  "scene": { "emoji": "🍲", "props": ["🏮", "🌶️", "🥢", "🏮"], "colors": ["#ffb199", "#c8102e"] },
+  "startNode": "greet",
+  "rewards": { "exp": 90, "cny": 70 },
+
+  "npcs": {
+    "host":   { "avatar": "💁", "name": { "zh": "迎宾", "zht": "迎賓", "py": "yíngbīn", "en": "Greeter" } },
+    "server": { "avatar": "🧑‍🍳", "name": { "zh": "服务员", "zht": "服務員", "py": "fúwùyuán", "en": "Server" } },
+    "friend": { "avatar": "🧑", "name": { "zh": "朋友", "zht": "朋友", "py": "péngyou", "en": "Your friend" } }
+  },
+
+  "dialogue": {
+    "greet": {
+      "speaker": "host",
+      "line": { "zh": "欢迎光临！几位？里面请！", "zht": "歡迎光臨！幾位？裡面請！", "py": "Huānyíng guānglín! Jǐ wèi? Lǐmiàn qǐng!", "en": "Welcome! How many? Come on in!" },
+      "note": "You're here with a friend. Hot pot is a social meal — everyone cooks together in one bubbling pot.",
+      "choices": [
+        {
+          "id": "two-wei",
+          "text": { "zh": "两位。", "zht": "兩位。", "py": "Liǎng wèi.", "en": "Two." },
+          "grade": "best",
+          "feedback": "两位 — polite measure word, and 两 (not 二) before it. Perfect.",
+          "next": "broth"
+        },
+        {
+          "id": "two-people",
+          "text": { "zh": "两个人。", "zht": "兩個人。", "py": "Liǎng ge rén.", "en": "Two people." },
+          "grade": "ok",
+          "feedback": "Understood — but 位 (wèi) is the polite word for guests: 两位.",
+          "next": "broth"
+        },
+        {
+          "id": "want-hotpot",
+          "text": { "zh": "我要吃火锅！", "zht": "我要吃火鍋！", "py": "Wǒ yào chī huǒguō!", "en": "I want hot pot!" },
+          "grade": "wrong",
+          "feedback": "Of course you do — but she asked 几位 (how many people?)."
+        }
+      ]
+    },
+
+    "broth": {
+      "speaker": "server",
+      "line": { "zh": "两位好！锅底要什么？鸳鸯锅、红汤还是清汤？", "zht": "兩位好！鍋底要什麼？鴛鴦鍋、紅湯還是清湯？", "py": "Liǎng wèi hǎo! Guōdǐ yào shénme? Yuānyang guō, hóngtāng háishi qīngtāng?", "en": "Hi, both! Which broth? A split pot, spicy red, or clear?" },
+      "note": "鸳鸯 (yuānyang) are mandarin ducks, always seen in pairs — so a split pot is a \"mandarin duck pot\". 锅底 (guōdǐ) = the soup base.",
+      "choices": [
+        {
+          "id": "yuanyang",
+          "text": { "zh": "鸳鸯锅吧，一半辣一半不辣。", "zht": "鴛鴦鍋吧，一半辣一半不辣。", "py": "Yuānyang guō ba, yíbàn là yíbàn bú là.", "en": "A split pot — half spicy, half not." },
+          "grade": "best",
+          "feedback": "The diplomatic choice! 一半…一半… = \"half … half …\".",
+          "effects": [{ "type": "setFlag", "flag": "broth", "value": "yuanyang" }],
+          "next": "spice"
+        },
+        {
+          "id": "red",
+          "text": { "zh": "红汤！我们不怕辣。", "zht": "紅湯！我們不怕辣。", "py": "Hóngtāng! Wǒmen bú pà là.", "en": "Red broth! We're not afraid of spice." },
+          "grade": "best",
+          "feedback": "不怕辣 (bú pà là), \"not afraid of spice\" — the locals will approve.",
+          "effects": [{ "type": "setFlag", "flag": "broth", "value": "red" }],
+          "next": "spice"
+        },
+        {
+          "id": "clear",
+          "text": { "zh": "清汤，谢谢。", "zht": "清湯，謝謝。", "py": "Qīngtāng, xièxie.", "en": "Clear broth, please." },
+          "grade": "best",
+          "feedback": "A gentle mushroom broth — fine, though in Chongqing you're missing the main event!",
+          "effects": [{ "type": "addItem", "item": "clear-broth", "locked": true }],
+          "next": "sauce-bar"
+        }
+      ]
+    },
+
+    "spice": {
+      "speaker": "server",
+      "line": { "zh": "辣度要微辣、中辣还是特辣？", "zht": "辣度要微辣、中辣還是特辣？", "py": "Làdù yào wēi là, zhōng là háishi tè là?", "en": "Spice level — mild, medium, or extra spicy?" },
+      "note": "Careful: Chongqing 微辣 (\"mild\") is spicier than \"hot\" in most other places!",
+      "choices": [
+        {
+          "id": "yy-mild", "requires": { "flags": { "broth": "yuanyang" } },
+          "text": { "zh": "微辣就好。", "zht": "微辣就好。", "py": "Wēi là jiù hǎo.", "en": "Mild is fine." },
+          "grade": "best", "feedback": "A wise first time in Chongqing.",
+          "effects": [{ "type": "addItem", "item": "yuanyang-pot", "locked": true, "choices": { "spice": ["mild"] } }],
+          "next": "sauce-bar"
+        },
+        {
+          "id": "yy-medium", "requires": { "flags": { "broth": "yuanyang" } },
+          "text": { "zh": "中辣。", "zht": "中辣。", "py": "Zhōng là.", "en": "Medium." },
+          "grade": "best", "feedback": "Brave — and you've got the clear side to retreat to.",
+          "effects": [{ "type": "addItem", "item": "yuanyang-pot", "locked": true, "choices": { "spice": ["medium"] } }],
+          "next": "sauce-bar"
+        },
+        {
+          "id": "yy-extra", "requires": { "flags": { "broth": "yuanyang" } },
+          "text": { "zh": "特辣！", "zht": "特辣！", "py": "Tè là!", "en": "Extra spicy!" },
+          "grade": "best", "feedback": "勇敢 (yǒnggǎn) — brave! Keep a dessert handy.",
+          "effects": [{ "type": "addItem", "item": "yuanyang-pot", "locked": true, "choices": { "spice": ["extra"] } }],
+          "next": "sauce-bar"
+        },
+        {
+          "id": "red-mild", "requires": { "flags": { "broth": "red" } },
+          "text": { "zh": "微辣就好。", "zht": "微辣就好。", "py": "Wēi là jiù hǎo.", "en": "Mild is fine." },
+          "grade": "best", "feedback": "A wise first time in Chongqing.",
+          "effects": [{ "type": "addItem", "item": "red-pot", "locked": true, "choices": { "spice": ["mild"] } }],
+          "next": "sauce-bar"
+        },
+        {
+          "id": "red-medium", "requires": { "flags": { "broth": "red" } },
+          "text": { "zh": "中辣。", "zht": "中辣。", "py": "Zhōng là.", "en": "Medium." },
+          "grade": "best", "feedback": "Brave!",
+          "effects": [{ "type": "addItem", "item": "red-pot", "locked": true, "choices": { "spice": ["medium"] } }],
+          "next": "sauce-bar"
+        },
+        {
+          "id": "red-extra", "requires": { "flags": { "broth": "red" } },
+          "text": { "zh": "特辣！", "zht": "特辣！", "py": "Tè là!", "en": "Extra spicy!" },
+          "grade": "best", "feedback": "勇敢 (yǒnggǎn) — brave! Keep a dessert handy.",
+          "effects": [{ "type": "addItem", "item": "red-pot", "locked": true, "choices": { "spice": ["extra"] } }],
+          "next": "sauce-bar"
+        }
+      ]
+    },
+
+    "sauce-bar": {
+      "speaker": "server",
+      "line": { "zh": "调料台在那边，每位五块，自己调。", "zht": "調料台在那邊，每位五塊，自己調。", "py": "Tiáoliào tái zài nà biān, měi wèi wǔ kuài, zìjǐ tiáo.", "en": "The sauce bar is over there — ¥5 per person, mix your own." },
+      "choices": [
+        {
+          "id": "ok-sauce",
+          "text": { "zh": "好的，谢谢！", "zht": "好的，謝謝！", "py": "Hǎo de, xièxie!", "en": "Okay, thanks!" },
+          "grade": "best",
+          "feedback": "Off to the sauce bar!",
+          "effects": [{ "type": "addItem", "item": "sauce-fee", "qty": 2, "locked": true }],
+          "next": "mix"
+        },
+        {
+          "id": "must-pay",
+          "text": { "zh": "一定要付吗？", "zht": "一定要付嗎？", "py": "Yídìng yào fù ma?", "en": "Do we have to pay for it?" },
+          "grade": "neutral",
+          "feedback": "Yes — a sauce-bar fee (调料费, tiáoliào fèi) per person is standard. Worth it!",
+          "effects": [{ "type": "addItem", "item": "sauce-fee", "qty": 2, "locked": true }],
+          "next": "mix"
+        }
+      ]
+    },
+
+    "mix": {
+      "speaker": "narrator",
+      "line": { "zh": "你去调料台。重庆人最常用什么蘸料？", "zht": "你去調料台。重慶人最常用什麼蘸料？", "py": "Nǐ qù tiáoliào tái. Chóngqìng rén zuì cháng yòng shénme zhànliào?", "en": "You head to the sauce bar. What's the classic Chongqing dipping sauce?" },
+      "choices": [
+        {
+          "id": "oil-dish",
+          "text": { "zh": "香油碟：香油、蒜泥、葱花。", "zht": "香油碟：香油、蒜泥、蔥花。", "py": "Xiāngyóu dié: xiāngyóu, suànní, cōnghuā.", "en": "The sesame-oil dip: sesame oil, mashed garlic, scallions." },
+          "grade": "best",
+          "feedback": "The Chongqing classic — sesame oil cools the chili and coats the food.",
+          "note": "Some people add oyster sauce (蚝油), cilantro, or vinegar, but 香油碟 is the base.",
+          "next": "order"
+        },
+        {
+          "id": "sesame-paste",
+          "text": { "zh": "麻酱。", "zht": "麻醬。", "py": "Májiàng.", "en": "Sesame paste." },
+          "grade": "ok",
+          "feedback": "That's the Beijing style, for mutton hot pot (涮羊肉). Tasty, but Chongqing locals go for 香油碟.",
+          "next": "order"
+        },
+        {
+          "id": "ketchup",
+          "text": { "zh": "番茄酱。", "zht": "番茄醬。", "py": "Fānqié jiàng.", "en": "Ketchup." },
+          "grade": "wrong",
+          "feedback": "Not at a Chongqing hot pot! Try the sesame-oil dip (香油碟)."
+        }
+      ]
+    },
+
+    "order": {
+      "speaker": "server",
+      "line": { "zh": "锅开了！想吃什么，在单子上勾一下。", "zht": "鍋開了！想吃什麼，在單子上勾一下。", "py": "Guō kāi le! Xiǎng chī shénme, zài dānzi shang gōu yíxià.", "en": "The pot's boiling! Tick whatever you'd like on the list." },
+      "note": "Hot pot dishes are ordered raw by the plate (盘, pán) and cooked at the table.",
+      "action": "openMenu",
+      "next": "confirm"
+    },
+
+    "confirm": {
+      "speaker": "server",
+      "line": { "zh": "好的，你们点了{order}。对吗？", "zht": "好的，你們點了{order}。對嗎？", "py": "Hǎo de, nǐmen diǎn le {order}. Duì ma?", "en": "Okay, you've got: {order}. Is that right?" },
+      "choices": [
+        {
+          "id": "yes",
+          "text": { "zh": "对，谢谢！", "zht": "對，謝謝！", "py": "Duì, xièxie!", "en": "Yes, thanks!" },
+          "grade": "best",
+          "feedback": "Let's eat!",
+          "next": "tripe"
+        },
+        {
+          "id": "more",
+          "text": { "zh": "我们再加点儿。", "zht": "我們再加點兒。", "py": "Wǒmen zài jiā diǎnr.", "en": "We'll add a bit more." },
+          "grade": "neutral",
+          "feedback": "Hot pot is hungry work — back to the list.",
+          "next": "order"
+        }
+      ]
+    },
+
+    "tripe": {
+      "speaker": "friend",
+      "line": { "zh": "菜上齐了！毛肚要涮多久？", "zht": "菜上齊了！毛肚要涮多久？", "py": "Cài shàng qí le! Máodǔ yào shuàn duōjiǔ?", "en": "All the food's here! How long should we cook the beef tripe?" },
+      "note": "涮 (shuàn) means to swish something through boiling broth.",
+      "choices": [
+        {
+          "id": "qi-shang-ba-xia",
+          "text": { "zh": "七上八下，十几秒就好。", "zht": "七上八下，十幾秒就好。", "py": "Qī shàng bā xià, shí jǐ miǎo jiù hǎo.", "en": "Seven ups, eight downs — just over ten seconds." },
+          "grade": "best",
+          "feedback": "七上八下: dip it in and out 7–8 times. Overcook it and it turns rubbery!",
+          "note": "As an idiom, 七上八下 means \"feeling anxious\" — at hot pot, it's a cooking timer.",
+          "effects": [{ "type": "setFlag", "flag": "qiShangBaXia" }],
+          "next": "broth-low"
+        },
+        {
+          "id": "ask-server",
+          "text": { "zh": "不知道，问问服务员吧。", "zht": "不知道，問問服務員吧。", "py": "Bù zhīdào, wènwen fúwùyuán ba.", "en": "No idea — let's ask the server." },
+          "grade": "ok",
+          "feedback": "Asking is smart! The answer: 七上八下 — swish it in and out 7–8 times.",
+          "next": "broth-low"
+        },
+        {
+          "id": "ten-minutes",
+          "text": { "zh": "煮十分钟，煮熟一点。", "zht": "煮十分鐘，煮熟一點。", "py": "Zhǔ shí fēnzhōng, zhǔ shú yìdiǎn.", "en": "Ten minutes — cook it through." },
+          "grade": "wrong",
+          "feedback": "Ten minutes turns tripe into rubber bands! It only needs a few seconds."
+        }
+      ]
+    },
+
+    "broth-low": {
+      "speaker": "narrator",
+      "line": { "zh": "吃着吃着，锅里的汤少了。", "zht": "吃著吃著，鍋裡的湯少了。", "py": "Chī zhe chī zhe, guō lǐ de tāng shǎo le.", "en": "As you keep eating, the broth gets low." },
+      "note": "Verb + 着 + verb + 着 means \"while doing … (and then)\".",
+      "choices": [
+        {
+          "id": "add-soup",
+          "text": { "zh": "服务员，麻烦加点汤！", "zht": "服務員，麻煩加點湯！", "py": "Fúwùyuán, máfan jiā diǎn tāng!", "en": "Excuse me, could you add some broth?" },
+          "grade": "best",
+          "feedback": "加汤 (jiā tāng) — exactly. 麻烦 makes it polite.",
+          "next": "soup-coming"
+        },
+        {
+          "id": "add-water",
+          "text": { "zh": "服务员，加水！", "zht": "服務員，加水！", "py": "Fúwùyuán, jiā shuǐ!", "en": "Excuse me, add water!" },
+          "grade": "ok",
+          "feedback": "They'll understand, but water dilutes the flavor — ask for 加汤 (more broth).",
+          "next": "soup-coming"
+        },
+        {
+          "id": "pour-cola",
+          "text": { "zh": "自己往锅里倒可乐。", "zht": "自己往鍋裡倒可樂。", "py": "Zìjǐ wǎng guō lǐ dào kělè.", "en": "Pour cola into the pot yourself." },
+          "grade": "wrong",
+          "feedback": "Please don't! Just ask the staff to 加汤."
+        }
+      ]
+    },
+
+    "soup-coming": {
+      "speaker": "server",
+      "line": { "zh": "好嘞，马上来！", "zht": "好嘞，馬上來！", "py": "Hǎo lei, mǎshàng lái!", "en": "You got it — coming right up!" },
+      "note": "好嘞 (hǎo lei) is a cheerful, colloquial \"okay!\" you'll hear from busy staff.",
+      "next": "too-spicy"
+    },
+
+    "too-spicy": {
+      "speaker": "narrator",
+      "line": { "zh": "太辣了！你的嘴巴着火了。怎么办？", "zht": "太辣了！你的嘴巴著火了。怎麼辦？", "py": "Tài là le! Nǐ de zuǐba zháohuǒ le. Zěnme bàn?", "en": "Too spicy! Your mouth is on fire. What do you do?" },
+      "choices": [
+        {
+          "id": "bingfen",
+          "text": { "zh": "来一碗冰粉！", "zht": "來一碗冰粉！", "py": "Lái yì wǎn bīngfěn!", "en": "A bowl of ice jelly!" },
+          "grade": "best",
+          "feedback": "冰粉 (bīngfěn) is Chongqing's favorite fire extinguisher.",
+          "effects": [{ "type": "addItem", "item": "bingfen", "locked": true }],
+          "next": "bill"
+        },
+        {
+          "id": "soy-milk",
+          "text": { "zh": "来一瓶豆奶！", "zht": "來一瓶豆奶！", "py": "Lái yì píng dòunǎi!", "en": "A bottle of soy milk!" },
+          "grade": "best",
+          "feedback": "Creamy drinks soothe the burn much better than water.",
+          "effects": [{ "type": "addItem", "item": "soy-milk", "locked": true }],
+          "next": "bill"
+        },
+        {
+          "id": "ice-water",
+          "text": { "zh": "喝冰水。", "zht": "喝冰水。", "py": "Hē bīng shuǐ.", "en": "Drink ice water." },
+          "grade": "ok",
+          "feedback": "Water helps a little, but it spreads the chili oil around. Try 冰粉 or 豆奶 next time!",
+          "next": "bill"
+        }
+      ]
+    },
+
+    "bill": {
+      "speaker": "narrator",
+      "line": { "zh": "吃饱了，该结账了。怎么叫服务员？", "zht": "吃飽了，該結賬了。怎麼叫服務員？", "py": "Chī bǎo le, gāi jiézhàng le. Zěnme jiào fúwùyuán?", "en": "You're stuffed — time to pay. How do you call the server?" },
+      "choices": [
+        {
+          "id": "meinv",
+          "text": { "zh": "美女，买单！", "zht": "美女，買單！", "py": "Měinǚ, mǎidān!", "en": "Excuse me, miss — the bill!" },
+          "grade": "best",
+          "feedback": "Very local! Young female staff are often called 美女 (\"beautiful lady\") and men 帅哥 (\"handsome guy\").",
+          "note": "In much of China, 美女 / 帅哥 are friendly everyday forms of address, not flirting.",
+          "next": "pay"
+        },
+        {
+          "id": "fuwuyuan",
+          "text": { "zh": "服务员，买单！", "zht": "服務員，買單！", "py": "Fúwùyuán, mǎidān!", "en": "Excuse me, the bill!" },
+          "grade": "best",
+          "feedback": "Classic and correct.",
+          "next": "pay"
+        },
+        {
+          "id": "leave",
+          "text": { "zh": "我们走吧。", "zht": "我們走吧。", "py": "Wǒmen zǒu ba.", "en": "Let's go." },
+          "grade": "wrong",
+          "feedback": "Not before paying!"
+        }
+      ]
+    },
+
+    "pay": {
+      "speaker": "server",
+      "line": { "zh": "一共{total}块，包括锅底和调料。扫码还是现金？", "zht": "一共{total}塊，包括鍋底和調料。掃碼還是現金？", "py": "Yígòng {total} kuài, bāokuò guōdǐ hé tiáoliào. Sǎo mǎ háishi xiànjīn?", "en": "¥{total} in total, including the broth and sauces. QR code or cash?" },
+      "choices": [
+        {
+          "id": "pay-qr",
+          "text": { "zh": "扫码吧。", "zht": "掃碼吧。", "py": "Sǎo mǎ ba.", "en": "QR code, please." },
+          "grade": "best",
+          "feedback": "Done!",
+          "effects": [{ "type": "setFlag", "flag": "payment", "value": "qr" }],
+          "next": "goodbye"
+        },
+        {
+          "id": "pay-cash",
+          "text": { "zh": "现金吧。", "zht": "現金吧。", "py": "Xiànjīn ba.", "en": "Cash, please." },
+          "grade": "best",
+          "feedback": "Done!",
+          "effects": [{ "type": "setFlag", "flag": "payment", "value": "cash" }],
+          "next": "goodbye"
+        }
+      ]
+    },
+
+    "goodbye": {
+      "speaker": "host",
+      "line": { "zh": "慢走！下次再来吃火锅！", "zht": "慢走！下次再來吃火鍋！", "py": "Màn zǒu! Xià cì zài lái chī huǒguō!", "en": "Take care! Come back for hot pot again!" },
+      "action": "checkout"
+    }
+  },
+
+  "menu": {
+    "optionGroups": {
+      "spice": {
+        "type": "single",
+        "label": { "zh": "辣度", "zht": "辣度", "py": "làdù", "en": "Spice level" },
+        "choices": [
+          { "id": "mild", "text": { "zh": "微辣", "zht": "微辣", "py": "wēi là", "en": "mild" }, "default": true },
+          { "id": "medium", "text": { "zh": "中辣", "zht": "中辣", "py": "zhōng là", "en": "medium spicy" } },
+          { "id": "extra", "text": { "zh": "特辣", "zht": "特辣", "py": "tè là", "en": "extra spicy" } }
+        ]
+      }
+    },
+
+    "categories": [
+      {
+        "id": "base",
+        "name": { "zh": "锅底和调料", "zht": "鍋底和調料", "py": "guōdǐ hé tiáoliào", "en": "Broth & sauces" },
+        "items": [
+          { "id": "yuanyang-pot", "emoji": "☯️", "name": { "zh": "鸳鸯锅", "zht": "鴛鴦鍋", "py": "yuānyang guō", "en": "split pot (spicy + clear)" }, "price": 48, "options": ["spice"], "hidden": true },
+          { "id": "red-pot", "emoji": "🌶️", "name": { "zh": "红汤锅", "zht": "紅湯鍋", "py": "hóngtāng guō", "en": "spicy beef-tallow broth" }, "price": 42, "options": ["spice"], "hidden": true },
+          { "id": "clear-broth", "emoji": "🍄", "name": { "zh": "清汤锅", "zht": "清湯鍋", "py": "qīngtāng guō", "en": "clear mushroom broth" }, "price": 38, "hidden": true },
+          { "id": "sauce-fee", "emoji": "🧂", "name": { "zh": "调料费", "zht": "調料費", "py": "tiáoliào fèi", "en": "sauce bar (per person)" }, "price": 5, "hidden": true }
+        ]
+      },
+      {
+        "id": "meat",
+        "name": { "zh": "荤菜", "zht": "葷菜", "py": "hūncài", "en": "Meat & offal" },
+        "items": [
+          { "id": "maodu", "emoji": "🐄", "name": { "zh": "毛肚", "zht": "毛肚", "py": "máodǔ", "en": "beef tripe" }, "price": 38, "tags": ["signature"], "note": "The king of Chongqing hot pot. Remember: 七上八下 — just a few seconds!" },
+          { "id": "duck-intestine", "emoji": "🦆", "name": { "zh": "鸭肠", "zht": "鴨腸", "py": "yācháng", "en": "duck intestines" }, "price": 28, "note": "Crunchy and springy — another quick-dip favorite." },
+          { "id": "fatty-beef", "emoji": "🥩", "name": { "zh": "肥牛", "zht": "肥牛", "py": "féiniú", "en": "sliced fatty beef" }, "price": 36 },
+          { "id": "shrimp-paste", "emoji": "🦐", "name": { "zh": "虾滑", "zht": "蝦滑", "py": "xiāhuá", "en": "shrimp paste" }, "price": 32, "note": "Scoop it into little balls with a spoon and drop them in." },
+          { "id": "luncheon-meat", "emoji": "🥫", "name": { "zh": "午餐肉", "zht": "午餐肉", "py": "wǔcān ròu", "en": "luncheon meat" }, "price": 18 }
+        ]
+      },
+      {
+        "id": "veg",
+        "name": { "zh": "素菜", "zht": "素菜", "py": "sùcài", "en": "Vegetables & more" },
+        "items": [
+          { "id": "potato", "emoji": "🥔", "name": { "zh": "土豆片", "zht": "土豆片", "py": "tǔdòu piàn", "en": "potato slices" }, "price": 10, "tags": ["vegetarian"] },
+          { "id": "frozen-tofu", "emoji": "🧊", "name": { "zh": "冻豆腐", "zht": "凍豆腐", "py": "dòng dòufu", "en": "frozen tofu" }, "price": 12, "tags": ["vegetarian"], "note": "Freezing makes the tofu spongy, so it soaks up the broth." },
+          { "id": "wide-noodles", "emoji": "🍜", "name": { "zh": "宽粉", "zht": "寬粉", "py": "kuān fěn", "en": "wide sweet-potato noodles" }, "price": 12, "tags": ["vegetarian"] },
+          { "id": "lotus-root", "emoji": "🪷", "name": { "zh": "藕片", "zht": "藕片", "py": "ǒu piàn", "en": "lotus root slices" }, "price": 12, "tags": ["vegetarian"] },
+          { "id": "greens", "emoji": "🥬", "name": { "zh": "青菜", "zht": "青菜", "py": "qīngcài", "en": "leafy greens" }, "price": 10, "tags": ["vegetarian"] }
+        ]
+      },
+      {
+        "id": "cool-down",
+        "name": { "zh": "饮料甜品", "zht": "飲料甜品", "py": "yǐnliào tiánpǐn", "en": "Drinks & dessert" },
+        "items": [
+          { "id": "bingfen", "emoji": "🍧", "name": { "zh": "冰粉", "zht": "冰粉", "py": "bīngfěn", "en": "ice jelly with brown sugar" }, "price": 8, "note": "A wobbly, cooling Sichuan dessert — perfect after spicy food." },
+          { "id": "soy-milk", "emoji": "🥛", "name": { "zh": "豆奶", "zht": "豆奶", "py": "dòunǎi", "en": "soy milk" }, "price": 6 },
+          { "id": "sour-plum", "emoji": "🧃", "name": { "zh": "酸梅汤", "zht": "酸梅湯", "py": "suānméi tāng", "en": "sour plum drink" }, "price": 6 }
+        ]
+      }
+    ]
+  }
+}

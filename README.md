@@ -34,8 +34,10 @@ See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the module layout, data flo
 
 ## Status
 
-| Restaurant | Status |
+| Restaurant | Difficulty |
 |---|---|
-| 🍜 兰州拉面馆 Lanzhou Noodle House | ✅ Playable |
-| 🥟 金龙茶楼 Golden Dragon Teahouse (Dim Sum) | ✅ Playable |
-| 🍱 快餐 Fast Casual · 🍲 火锅 Hot Pot · 🌶️ 川菜 Sichuan | 🚧 Coming soon |
+| 🍱 好味快餐 Tasty Express (Fast Casual) | ⭐ Easy |
+| 🍜 兰州拉面馆 Lanzhou Noodle House | ⭐ Easy |
+| 🥟 金龙茶楼 Golden Dragon Teahouse (Dim Sum) | ⭐⭐ Medium |
+| 🍲 重庆老火锅 Old Chongqing Hot Pot | ⭐⭐ Medium |
+| 🌶️ 蜀香川菜馆 Shu Fragrance Sichuan Kitchen | ⭐⭐⭐ Hard |

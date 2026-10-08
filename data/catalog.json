@@ -14,13 +14,13 @@
     },
     {
       "id": "fast-casual",
-      "status": "coming_soon",
+      "status": "playable",
       "emoji": "🍱",
       "difficulty": 1,
       "colors": ["#b9e4c9", "#3fa37a"],
       "name": { "zh": "好味快餐", "zht": "好味快餐", "py": "Hǎowèi Kuàicān", "en": "Tasty Express" },
       "cuisine": { "zh": "快餐", "zht": "快餐", "py": "kuàicān", "en": "Fast Casual" },
-      "blurb": "Order at the counter, choose your sides, and take it to go (打包)."
+      "blurb": "Order and pay at the counter, choose 打包 or dine-in, and listen for your number to be called."
     },
     {
       "id": "dim-sum",
@@ -34,23 +34,23 @@
     },
     {
       "id": "hot-pot",
-      "status": "coming_soon",
+      "status": "playable",
       "emoji": "🍲",
       "difficulty": 2,
       "colors": ["#ffb199", "#c8102e"],
       "name": { "zh": "重庆老火锅", "zht": "重慶老火鍋", "py": "Chóngqìng Lǎo Huǒguō", "en": "Old Chongqing Hot Pot" },
       "cuisine": { "zh": "火锅", "zht": "火鍋", "py": "huǒguō", "en": "Hot Pot" },
-      "blurb": "Choose a split broth (鸳鸯锅), mix your dipping sauce, and order by the plate."
+      "blurb": "Pick a split broth (鸳鸯锅) and spice level, mix a 香油碟, learn 七上八下, and survive the heat."
     },
     {
       "id": "sichuan",
-      "status": "coming_soon",
+      "status": "playable",
       "emoji": "🌶️",
       "difficulty": 3,
       "colors": ["#f7a6a6", "#9e0c24"],
       "name": { "zh": "蜀香川菜馆", "zht": "蜀香川菜館", "py": "Shǔxiāng Chuāncàiguǎn", "en": "Shu Fragrance Sichuan Kitchen" },
       "cuisine": { "zh": "川菜", "zht": "川菜", "py": "Chuāncài", "en": "Sichuan" },
-      "blurb": "Share family-style dishes, survive the 麻辣 heat, and toast with 干杯."
+      "blurb": "A work dinner: seat of honor, a peanut allergy, 麻 vs 辣, toasting with tea, and asking for a 发票."
     }
   ],
   "badges": [
@@ -102,6 +102,41 @@
       "name": { "zh": "吃货", "zht": "吃貨", "py": "chīhuò", "en": "Foodie Explorer" },
       "hint": "Finish meals at 2 different restaurants.",
       "condition": { "type": "restaurantsCompleted", "count": 2 }
+    },
+    {
+      "id": "sharp-ears",
+      "emoji": "👂",
+      "name": { "zh": "耳朵灵", "zht": "耳朵靈", "py": "ěrduo líng", "en": "Sharp Ears" },
+      "hint": "Get a perfect conversation score at Tasty Express.",
+      "condition": { "type": "perfectMeal", "restaurant": "fast-casual" }
+    },
+    {
+      "id": "tripe-timer",
+      "emoji": "⏱️",
+      "name": { "zh": "七上八下", "zht": "七上八下", "py": "qī shàng bā xià", "en": "Tripe Timer" },
+      "hint": "Know how long to cook beef tripe at hot pot.",
+      "condition": { "type": "mealFlag", "flag": "qiShangBaXia", "restaurant": "hot-pot" }
+    },
+    {
+      "id": "tea-toast",
+      "emoji": "🍵",
+      "name": { "zh": "以茶代酒", "zht": "以茶代酒", "py": "yǐ chá dài jiǔ", "en": "Tea Toast" },
+      "hint": "Join a toast gracefully without drinking alcohol.",
+      "condition": { "type": "mealFlag", "flag": "teaForWine", "restaurant": "sichuan" }
+    },
+    {
+      "id": "expense-pro",
+      "emoji": "🧾",
+      "name": { "zh": "报销高手", "zht": "報銷高手", "py": "bàoxiāo gāoshǒu", "en": "Expense Pro" },
+      "hint": "Get the work dinner reimbursed.",
+      "condition": { "type": "mealFlag", "flag": "reimbursed", "restaurant": "sichuan" }
+    },
+    {
+      "id": "grand-tour",
+      "emoji": "🗺️",
+      "name": { "zh": "走遍美食", "zht": "走遍美食", "py": "zǒubiàn měishí", "en": "Grand Tour" },
+      "hint": "Finish a meal at all 5 restaurants.",
+      "condition": { "type": "restaurantsCompleted", "count": 5 }
     },
     {
       "id": "regular",

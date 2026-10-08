@@ -83,11 +83,13 @@ export function completeMeal(restaurant, badgeDefs) {
 
   const total = orderTotal(restaurant.menu, meal.order);
   const rewards = mealRewards(restaurant, meal.score, meal.maxScore);
+  const reimbursed = meal.flags.reimbursed === true ? total : 0;
   const levelBefore = levelInfo(getState().progress.exp).level;
   let newBadges = [];
 
   update((s) => {
-    s.wallet.cny = Math.max(0, s.wallet.cny - total) + rewards.cny;
+    // A meal flagged `reimbursed` (e.g. a work dinner with a 发票) is paid back in full.
+    s.wallet.cny = Math.max(0, s.wallet.cny - total) + reimbursed + rewards.cny;
     s.progress.exp += rewards.exp;
     s.progress.mealsCompleted += 1;
 
@@ -110,6 +112,7 @@ export function completeMeal(restaurant, badgeDefs) {
     order: meal.order,
     flags: meal.flags,
     total,
+    reimbursed,
     score: meal.score,
     maxScore: meal.maxScore,
     ...rewards,

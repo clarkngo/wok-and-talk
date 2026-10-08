@@ -67,9 +67,13 @@ function sameChoices(a, b) {
   return true;
 }
 
-/** Returns a new order with `line` added (merged into an identical line if present). */
+/**
+ * Returns a new order with `line` added (merged into an identical line if present).
+ * `locked` lines (added by dialogue, e.g. a tea charge) can't be removed on the order sheet.
+ */
 export function addLine(order, line) {
-  const i = order.findIndex((l) => l.itemId === line.itemId && sameChoices(l.choices, line.choices));
+  const i = order.findIndex((l) => l.itemId === line.itemId && !!l.locked === !!line.locked
+    && sameChoices(l.choices, line.choices));
   if (i === -1) return [...order, { ...line, qty: line.qty ?? 1 }];
   return order.map((l, j) => (j === i ? { ...l, qty: Math.min(20, l.qty + (line.qty ?? 1)) } : l));
 }

@@ -4,10 +4,12 @@ import { h, mount } from './dom.js';
 import { tri, inline } from './text.js';
 import { screenRoot, showScreen } from './screens.js';
 import { describeLine, linePrice } from '../engine/order.js';
+import { playSequence } from '../core/sfx.js';
 
 const PAYMENT = {
   qr: { zh: '扫码支付', zht: '掃碼支付', py: 'sǎomǎ zhīfù', en: 'QR code' },
   cash: { zh: '现金', zht: '現金', py: 'xiànjīn', en: 'Cash' },
+  card: { zh: '刷卡', py: 'shuā kǎ', en: 'Card' },
 };
 
 let ctx;
@@ -37,6 +39,8 @@ export function renderCheckout(result) {
         h('span', null, inline({ zh: '合计', zht: '合計', py: 'héjì', en: 'Total' })),
         h('strong', null, `¥${result.total}`)),
       pay && h('div', { class: 'receipt-pay' }, 'Paid by ', inline(pay)),
+      result.reimbursed > 0 && h('div', { class: 'receipt-reimbursed' },
+        inline({ zh: '公司报销', zht: '公司報銷', py: 'gōngsī bàoxiāo', en: 'Reimbursed by your company' }), ` +¥${result.reimbursed}`),
       h('p', { class: 'receipt-note' }, 'No tip needed — tipping isn’t customary in mainland China.')),
 
     h('div', { class: 'rewards' },
@@ -62,4 +66,9 @@ export function renderCheckout(result) {
       h('button', { type: 'button', class: 'btn btn-ghost', onClick: () => nav.toDining(r.id) }, '🔁 Eat here again')));
 
   showScreen('checkout');
+  playSequence([
+    ['register', 0],
+    ...(result.newBadges.length ? [['badge', 900]] : []),
+    ...(result.levelAfter > result.levelBefore ? [['levelUp', result.newBadges.length ? 2000 : 900]] : []),
+  ]);
 }

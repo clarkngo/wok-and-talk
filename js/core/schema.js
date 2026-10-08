@@ -23,6 +23,7 @@ export function createDefaultState(now = new Date().toISOString()) {
       script: 'simplified', // 'simplified' | 'traditional'
       autoSpeak: false,
       tapToSpeak: true, // tap any Chinese text to hear it
+      soundEffects: true,
       speechRate: 0.9,
     },
     wallet: { cny: STARTING_CNY },
@@ -89,6 +90,7 @@ function sanitize(raw) {
     script: st.script === 'traditional' ? 'traditional' : 'simplified',
     autoSpeak: bool(st.autoSpeak, false),
     tapToSpeak: bool(st.tapToSpeak, true),
+    soundEffects: bool(st.soundEffects, true),
     speechRate: clamp(num(st.speechRate, 0.9), 0.5, 1.5),
   };
 
@@ -125,6 +127,7 @@ function sanitizeMeal(m) {
       itemId: line.itemId,
       qty: clamp(int(line.qty, 1), 1, 20),
       choices: mapObj(line.choices, (ids) => Array.isArray(ids) ? ids.filter((x) => typeof x === 'string') : null),
+      ...(line.locked === true && { locked: true }),
     }];
   }) : [];
   return {

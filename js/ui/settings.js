@@ -6,6 +6,7 @@ import * as store from '../core/store.js';
 import { setSetting, setProfileName } from '../core/actions.js';
 import { canSpeak, hasChineseVoice, speak } from '../core/speech.js';
 import { levelInfo } from '../engine/rewards.js';
+import { play } from '../core/sfx.js';
 
 let dlg;
 
@@ -41,11 +42,15 @@ function wireSettingControls() {
     const current = store.getState().settings[key];
     if (btn.dataset.value) setSetting(key, current === btn.dataset.value ? btn.dataset.off : btn.dataset.value);
     else setSetting(key, !current);
+    play('tick');
   });
   document.addEventListener('change', (e) => {
     const el = e.target;
     if (!(el instanceof HTMLInputElement) || !el.dataset.setting) return;
-    if (el.type === 'checkbox') setSetting(el.dataset.setting, el.checked);
+    if (el.type === 'checkbox') {
+      setSetting(el.dataset.setting, el.checked);
+      play('tick');
+    }
     else if (el.type === 'range') setSetting(el.dataset.setting, Number(el.value));
   });
 }
@@ -94,6 +99,7 @@ function render() {
         h('h3', null, 'Audio'),
         canSpeak
           ? [
+              switchRow('soundEffects', 'Sound effects', 'Chimes, pops, bells and gongs as you play'),
               switchRow('tapToSpeak', 'Tap Chinese to hear it', 'Tap any Chinese characters in the game to hear them spoken'),
               switchRow('autoSpeak', 'Read lines aloud', hasChineseVoice() ? 'Uses your device’s Mandarin voice' : 'No Mandarin voice found — install one in your OS settings'),
               h('label', { class: 'range-row' },
